@@ -99,7 +99,7 @@ Yjs。[![成为赞助商](https://img.shields.io/static/v1?label=Become%20a%20Sp
 
 * [概述](#overview)
   * [绑定](#bindings)
-  * [提供者](#providers)
+  * [提供者](#提供者providers)
   * [工具](#tooling)
   * [端口](#ports)
 * [快速入门](#getting-started)
