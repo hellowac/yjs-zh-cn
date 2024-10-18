@@ -1,0 +1,52 @@
+site_name: yjs-zh-cn
+site_description: 一个具有强大共享数据抽象的 CRDT 框架
+repo_url: https://github.com/hellowac/yjs-zh-cn
+
+theme:
+  name: "material"
+  palette:
+    - scheme: default
+      primary: "blue"
+      accent: "red"
+      toggle:
+        icon: material/lightbulb-outline
+        name: 切换到夜间模式
+    - scheme: slate
+      primary: "black"
+      accent: "black"
+      toggle:
+        icon: material/lightbulb
+        name: 切换到白天模式
+  features:
+    - navigation.instant
+    - navigation.top
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.annotate
+    - content.code.copy
+
+nav:
+  - index.md
+  - overview.md
+  - getting-start.md
+  - api.md
+  - crdt-algorithm.md
+  - INTERNALS.md
+  - license.md
+
+markdown_extensions:
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - mkdocstrings:
+      default_handler: python
