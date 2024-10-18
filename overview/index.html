@@ -1,0 +1,1068 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个具有强大共享数据抽象的 CRDT 框架">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../getting-start/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>概述 - yjs-zh-cn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="yjs-zh-cn" class="md-header__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            yjs-zh-cn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              概述
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="切换到白天模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到白天模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="yjs-zh-cn" class="md-nav__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    yjs-zh-cn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    概述
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    概述
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    绑定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    提供者
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    连接提供者
+  </a>
+  
+    <nav class="md-nav" aria-label="连接提供者">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    持久性提供者
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    工具
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    端口
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crdt-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs CRDT 算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTERNALS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs 内部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    许可证和作者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    绑定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    提供者
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    连接提供者
+  </a>
+  
+    <nav class="md-nav" aria-label="连接提供者">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    持久性提供者
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    工具
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    端口
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="_1">概述</h1>
+<p><strong>Overview</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>此存储库包含一组可观察更改并可并发操作的共享类型。网络功能和双向绑定实现于单独的模块中。</p>
+</div>
+<div class="tabbed-block">
+<p>This repository contains a collection of shared types that can be observed for
+changes and manipulated concurrently. Network functionality and two-way-bindings
+are implemented in separate modules.</p>
+</div>
+</div>
+</div>
+<h2 id="_2">绑定</h2>
+<p><strong>Bindings</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="center">光标</th>
+<th>绑定</th>
+<th>演示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://prosemirror.net/">ProseMirror</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-prosemirror">y-prosemirror</a></td>
+<td><a href="https://demos.yjs.dev/prosemirror/prosemirror.html">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://quilljs.com/">Quill</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-quill">y-quill</a></td>
+<td><a href="https://demos.yjs.dev/quill/quill.html">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://codemirror.net/">CodeMirror</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-codemirror">y-codemirror</a></td>
+<td><a href="https://demos.yjs.dev/codemirror/codemirror.html">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://microsoft.github.io/monaco-editor/">Monaco</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-monaco">y-monaco</a></td>
+<td><a href="https://demos.yjs.dev/monaco/monaco.html">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/ianstormtaylor/slate">Slate</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/bitphinix/slate-yjs">slate-yjs</a></td>
+<td><a href="https://bitphinix.github.io/slate-yjs-example">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/toeverything/blocksuite">BlockSuite</a></td>
+<td align="center">✔</td>
+<td>(native)</td>
+<td><a href="https://blocksuite-toeverything.vercel.app/?init">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://lexical.dev/">Lexical</a></td>
+<td align="center">✔</td>
+<td>(native)</td>
+<td><a href="https://lexical.dev/docs/collaboration/react#see-it-in-action">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/pmndrs/valtio">valtio</a></td>
+<td align="center"></td>
+<td><a href="https://github.com/dai-shi/valtio-yjs">valtio-yjs</a></td>
+<td><a href="https://codesandbox.io/s/valtio-yjs-demo-ox3iy">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/immerjs/immer">immer</a></td>
+<td align="center"></td>
+<td><a href="https://github.com/sep2/immer-yjs">immer-yjs</a></td>
+<td><a href="https://codesandbox.io/s/immer-yjs-demo-6e0znb">演示</a></td>
+</tr>
+<tr>
+<td>React</td>
+<td align="center"></td>
+<td><a href="https://github.com/nikgraf/react-yjs">react-yjs</a></td>
+<td><a href="https://react-yjs-example.vercel.app/">演示</a></td>
+</tr>
+<tr>
+<td>React / Vue / Svelte / MobX</td>
+<td align="center"></td>
+<td><a href="https://syncedstore.org">SyncedStore</a></td>
+<td><a href="https://syncedstore.org/docs/react">演示</a></td>
+</tr>
+<tr>
+<td><a href="https://mobx-keystone.js.org/">mobx-keystone</a></td>
+<td align="center"></td>
+<td><a href="https://github.com/xaviergonz/mobx-keystone/tree/master/packages/mobx-keystone-yjs">mobx-keystone-yjs</a></td>
+<td><a href="https://mobx-keystone.js.org/examples/yjs-binding">演示</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th align="center">Cursors</th>
+<th>Binding</th>
+<th>Demo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://prosemirror.net/">ProseMirror</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-prosemirror">y-prosemirror</a></td>
+<td><a href="https://demos.yjs.dev/prosemirror/prosemirror.html">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://quilljs.com/">Quill</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-quill">y-quill</a></td>
+<td><a href="https://demos.yjs.dev/quill/quill.html">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://codemirror.net/">CodeMirror</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-codemirror">y-codemirror</a></td>
+<td><a href="https://demos.yjs.dev/codemirror/codemirror.html">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://microsoft.github.io/monaco-editor/">Monaco</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/yjs/y-monaco">y-monaco</a></td>
+<td><a href="https://demos.yjs.dev/monaco/monaco.html">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/ianstormtaylor/slate">Slate</a></td>
+<td align="center">✔</td>
+<td><a href="https://github.com/bitphinix/slate-yjs">slate-yjs</a></td>
+<td><a href="https://bitphinix.github.io/slate-yjs-example">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/toeverything/blocksuite">BlockSuite</a></td>
+<td align="center">✔</td>
+<td>(native)</td>
+<td><a href="https://blocksuite-toeverything.vercel.app/?init">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://lexical.dev/">Lexical</a></td>
+<td align="center">✔</td>
+<td>(native)</td>
+<td><a href="https://lexical.dev/docs/collaboration/react#see-it-in-action">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/pmndrs/valtio">valtio</a></td>
+<td align="center"></td>
+<td><a href="https://github.com/dai-shi/valtio-yjs">valtio-yjs</a></td>
+<td><a href="https://codesandbox.io/s/valtio-yjs-demo-ox3iy">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/immerjs/immer">immer</a></td>
+<td align="center"></td>
+<td><a href="https://github.com/sep2/immer-yjs">immer-yjs</a></td>
+<td><a href="https://codesandbox.io/s/immer-yjs-demo-6e0znb">demo</a></td>
+</tr>
+<tr>
+<td>React</td>
+<td align="center"></td>
+<td><a href="https://github.com/nikgraf/react-yjs">react-yjs</a></td>
+<td><a href="https://react-yjs-example.vercel.app/">demo</a></td>
+</tr>
+<tr>
+<td>React / Vue / Svelte / MobX</td>
+<td align="center"></td>
+<td><a href="https://syncedstore.org">SyncedStore</a></td>
+<td><a href="https://syncedstore.org/docs/react">demo</a></td>
+</tr>
+<tr>
+<td><a href="https://mobx-keystone.js.org/">mobx-keystone</a></td>
+<td align="center"></td>
+<td><a href="https://github.com/xaviergonz/mobx-keystone/tree/master/packages/mobx-keystone-yjs">mobx-keystone-yjs</a></td>
+<td><a href="https://mobx-keystone.js.org/examples/yjs-binding">demo</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<h2 id="_3">提供者</h2>
+<p><strong>Providers</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>设置客户端之间的通信、管理意识信息以及为离线使用存储共享数据相当麻烦。<strong>提供者</strong>为您管理所有这些，是您协作应用的完美起点。</p>
+<blockquote>
+<p>这个提供者列表并不完整。请提交 PR 将您的提供者添加到此列表中！</p>
+</blockquote>
+</div>
+<div class="tabbed-block">
+<p>Setting up the communication between clients, managing awareness information,
+and storing shared data for offline usage is quite a hassle. <strong>Providers</strong>
+manage all that for you and are the perfect starting point for your
+collaborative app.</p>
+<blockquote>
+<p>This list of providers is incomplete. Please open PRs to add your providers to
+this list!</p>
+</blockquote>
+</div>
+</div>
+</div>
+<h2 id="_4">连接提供者</h2>
+<p><strong>Connection Providers</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><dl>
+  <dt><a href="https://github.com/yjs/y-websocket">y-websocket</a></dt>
+  <dd>
+一个包含简单 WebSocket 后端和连接该后端的 WebSocket 客户端的模块。 <a href="https://github.com/yjs/y-redis/"><b>y-redis</b></a>、<b>y-sweet</b>、<b>ypy-websocket</b> 和 <a href="https://tiptap.dev/docs/hocuspocus/introduction"><b>Hocuspocus</b></a>（见下文）是 y-websocket 的替代后端。
+  </dd>
+  <dt><a href="https://github.com/yjs/y-webrtc">y-webrtc</a></dt>
+  <dd>
+通过 WebRTC 在对等方之间传播文档更新。对等方通过信令服务器交换信令数据。公共可用的信令服务器可以使用。通过提供共享密钥，可以加密信令服务器上的通信，从而保持连接信息和共享文档的私密性。
+  </dd>
+  <dt><a href="https://github.com/liveblocks/liveblocks">@liveblocks/yjs</a></dt>
+  <dd>
+<a href="https://liveblocks.io/document/yjs">Liveblocks Yjs</a> 提供完全托管的 WebSocket 基础设施和持久化数据存储，用于 Yjs 文档。无需配置或维护。它还具有 Yjs webhook 事件、用于读取和更新 Yjs 文档的 REST API，以及浏览器 DevTools 扩展。
+  </dd>
+  <dt><a href="https://github.com/drifting-in-space/y-sweet">y-sweet</a></dt>
+  <dd>
+一个独立的 yjs 服务器，具有 S3 或文件系统的持久性。他们还提供<a href="https://y-sweet.cloud">云服务</a>。
+  </dd>
+  <dt><a href="https://github.com/ueberdosis/hocuspocus">Hocuspocus</a></dt>
+  <dd>
+一个独立的可扩展 yjs 服务器，具有 sqlite 持久性、webhooks、身份验证等功能。
+  </dd>
+  <dt><a href="https://docs.partykit.io/reference/y-partykit-api/">PartyKit</a></dt>
+  <dd>
+用于构建多人应用的云服务。
+  </dd>
+  <dt><a href="https://github.com/marcopolo/y-libp2p">y-libp2p</a></dt>
+  <dd>
+使用 <a href="https://libp2p.io/">libp2p</a> 通过 <a href="https://github.com/libp2p/specs/tree/master/pubsub/gossipsub">GossipSub</a> 传播更新。还包括一个对等同步机制，以便追赶错过的更新。
+  </dd>
+  <dt><a href="https://github.com/yjs/y-dat">y-dat</a></dt>
+  <dd>
+[进行中] 使用 <a href="https://github.com/kappa-db/multifeed">multifeed</a> 高效地写入文档更新到 dat 网络。每个客户端都有一个仅附加的 CRDT 本地更新日志（hypercore）。Multifeed 管理和同步 hypercores，而 y-dat 监听更改并将其应用于 Yjs 文档。
+  </dd>
+  <dt><a href="https://github.com/yousefED/matrix-crdt">Matrix-CRDT</a></dt>
+  <dd>
+通过使用 <a href="https://github.com/yousefED/matrix-crdt">MatrixProvider</a>，将 <a href="https://www.matrix.org">Matrix</a> 作为 Yjs 的现成后端。使用 Matrix 作为 Yjs 更新的传输和存储，这样您可以专注于构建客户端应用程序，而 Matrix 可以提供强大的功能，如身份验证、授权、联邦、托管（自托管或 SaaS）甚至端到端加密（E2EE）。
+  </dd>
+  <dt><a href="https://github.com/y-crdt/yrb-actioncable">yrb-actioncable</a></dt>
+  <dd>
+Yjs 客户端的 ActionCable 伴侣。还有一个适合的 <a href="https://github.com/y-crdt/yrb-redis">redis 扩展</a>。
+  </dd>
+  <dt><a href="https://github.com/y-crdt/ypy-websocket">ypy-websocket</a></dt>
+  <dd>
+使用 Python 编写的 WebSocket 后端。
+  </dd>
+  <dt><a href="https://tinybase.org/">Tinybase</a></dt>
+  <dd>
+用于本地优先应用的反应式数据存储。他们支持多个 CRDT 和不同的网络技术。
+  </dd>
+  <dt><a href="https://codeberg.org/webxdc/y-webxdc">y-webxdc</a></dt>
+  <dd>
+用于在 <a href="https://webxdc.org">webxdc 聊天应用</a> 中共享数据的提供者。
+  </dd>
+  <dt><a href="https://www.secsync.com/">secsync</a></dt>
+  <dd>
+一种通过中央服务转发端到端加密 CRDT 的架构。
+  </dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><dl>
+  <dt><a href="https://github.com/yjs/y-websocket">y-websocket</a></dt>
+  <dd>
+A module that contains a simple websocket backend and a websocket client that
+connects to that backend. <a href="https://github.com/yjs/y-redis/"><b>y-redis</b></a>,
+<b>y-sweet</b>, <b>ypy-websocket</b> and <a href="https://tiptap.dev/docs/hocuspocus/introduction">
+<b>Hocuspocus</b></a> (see below) are alternative
+backends to y-websocket.
+  </dd>
+  <dt><a href="https://github.com/yjs/y-webrtc">y-webrtc</a></dt>
+  <dd>
+Propagates document updates peer-to-peer using WebRTC. The peers exchange
+signaling data over signaling servers. Publically available signaling servers
+are available. Communication over the signaling servers can be encrypted by
+providing a shared secret, keeping the connection information and the shared
+document private.
+  </dd>
+  <dt><a href="https://github.com/liveblocks/liveblocks">@liveblocks/yjs</a></dt>
+  <dd>
+<a href="https://liveblocks.io/document/yjs">Liveblocks Yjs</a> provides a fully
+hosted WebSocket infrastructure and persisted data store for Yjs
+documents. No configuration or maintenance is required. It also features
+Yjs webhook events, REST API to read and update Yjs documents, and a
+browser DevTools extension.
+  </dd>
+  <dt><a href="https://github.com/drifting-in-space/y-sweet">y-sweet</a></dt>
+  <dd>
+A standalone yjs server with persistence to S3 or filesystem. They offer a
+<a href="https://y-sweet.cloud">cloud service</a> as well.
+  </dd>
+  <dt><a href="https://github.com/ueberdosis/hocuspocus">Hocuspocus</a></dt>
+  <dd>
+A standalone extensible yjs server with sqlite persistence, webhooks, auth and more.
+  </dd>
+  <dt><a href="https://docs.partykit.io/reference/y-partykit-api/">PartyKit</a></dt>
+  <dd>
+Cloud service for building multiplayer apps.
+  </dd>
+  <dt><a href="https://github.com/marcopolo/y-libp2p">y-libp2p</a></dt>
+  <dd>
+Uses <a href="https://libp2p.io/">libp2p</a> to propagate updates via
+<a href="https://github.com/libp2p/specs/tree/master/pubsub/gossipsub">GossipSub</a>.
+Also includes a peer-sync mechanism to catch up on missed updates.
+  </dd>
+  <dt><a href="https://github.com/yjs/y-dat">y-dat</a></dt>
+  <dd>
+[WIP] Write document updates efficiently to the dat network using
+<a href="https://github.com/kappa-db/multifeed">multifeed</a>. Each client has
+an append-only log of CRDT local updates (hypercore). Multifeed manages and sync
+hypercores and y-dat listens to changes and applies them to the Yjs document.
+</dd>
+  <dt><a href="https://github.com/yousefED/matrix-crdt">Matrix-CRDT</a></dt>
+  <dd>
+Use <a href="https://www.matrix.org">Matrix</a> as an off-the-shelf backend for
+Yjs by using the <a href="https://github.com/yousefED/matrix-crdt">MatrixProvider</a>.
+Use Matrix as transport and storage of Yjs updates, so you can focus building
+your client app and Matrix can provide powerful features like Authentication,
+Authorization, Federation, hosting (self-hosting or SaaS) and even End-to-End
+Encryption (E2EE).
+  </dd>
+  <dt><a href="https://github.com/y-crdt/yrb-actioncable">yrb-actioncable</a></dt>
+  <dd>
+An ActionCable companion for Yjs clients. There is a fitting
+<a href="https://github.com/y-crdt/yrb-redis">redis extension</a> as well.
+  </dd>
+  <dt><a href="https://github.com/y-crdt/ypy-websocket">ypy-websocket</a></dt>
+  <dd>
+Websocket backend, written in Python.
+  </dd>
+  <dt><a href="https://tinybase.org/">Tinybase</a></dt>
+  <dd>
+The reactive data store for local-first apps. They support multiple CRDTs and
+    different network technologies.
+  </dd>
+  <dt><a href="https://codeberg.org/webxdc/y-webxdc">y-webxdc</a></dt>
+  <dd>
+Provider for sharing data in <a href="https://webxdc.org">webxdc chat apps</a>.
+  </dd>
+  <dt><a href="https://www.secsync.com/">secsync</a></dt>
+  <dd>
+An architecture to relay end-to-end encrypted CRDTs over a central service.
+  </dd></p>
+</dl>
+</div>
+</div>
+</div>
+<h3 id="_5">持久性提供者</h3>
+<p><strong>Persistence Providers</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><dl>
+  <dt><a href="https://github.com/yjs/y-indexeddb">y-indexeddb</a></dt>
+  <dd>
+高效地将文档更新持久化到浏览器的 indexeddb 数据库。文档立即可用，只有差异需要通过网络提供者同步。
+  </dd>
+  <dt><a href="https://github.com/MaxNoetzold/y-mongodb-provider">y-mongodb-provider</a></dt>
+  <dd>
+为使用 MongoDB 的服务器添加持久存储。可以与 y-websocket 提供者一起使用。
+  </dd>
+  <dt><a href="https://github.com/toeverything/AFFiNE/tree/master/packages/y-indexeddb">@toeverything/y-indexeddb</a></dt>
+  <dd>
+类似于 y-indexeddb，但支持子文档，并且完全支持 TypeScript。
+  </dd>
+  <dt><a href="https://github.com/podraven/y-fire">y-fire</a></dt>
+  <dd>
+基于 Firestore 的 Yjs 数据库和连接提供者。
+  </dd>
+  <dt><a href="https://github.com/malte-j/y-op-sqlite">y-op-sqlite</a></dt>
+  <dd>
+使用 <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>，在 React Native 应用中持久化 YJS 更新，这是 React Native 的最快 SQLite 库。
+  </dd>
+  <dt><a href="https://github.com/MaxNoetzold/y-postgresql">y-postgresql</a></dt>
+  <dd>
+为使用 PostgreSQL 的 Web 服务器提供持久存储，且与 y-websocket 兼容。
+  </dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><dl>
+  <dt><a href="https://github.com/yjs/y-indexeddb">y-indexeddb</a></dt>
+  <dd>
+Efficiently persists document updates to the browsers indexeddb database.
+The document is immediately available and only diffs need to be synced through the
+network provider.
+  </dd>
+  <dt><a href="https://github.com/MaxNoetzold/y-mongodb-provider">y-mongodb-provider</a></dt>
+  <dd>
+Adds persistent storage to a server with MongoDB. Can be used with the
+y-websocket provider.
+  </dd>
+  <dt><a href="https://github.com/toeverything/AFFiNE/tree/master/packages/y-indexeddb">
+@toeverything/y-indexeddb</a></dt>
+  <dd>
+Like y-indexeddb, but with sub-documents support and fully TypeScript.
+  </dd>
+  <dt><a href="https://github.com/podraven/y-fire">y-fire</a></dt>
+  <dd>
+A database and connection provider for Yjs based on Firestore.
+  </dd>
+  <dt><a href="https://github.com/malte-j/y-op-sqlite">y-op-sqlite</a></dt>
+  <dd>
+  Persist YJS updates in your React Native app using
+   <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>
+  , the fastest SQLite library for React Native.<br />
+  </dd>
+  <dt><a href="https://github.com/MaxNoetzold/y-postgresql">y-postgresql</a></dt>
+  <dd>
+  Provides persistent storage for a web server using PostgreSQL and
+  is easily compatible with y-websocket.<br />
+  </dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h2 id="_6">工具</h2>
+<p><strong>Tooling</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><a href="https://docs.jamsocket.com/y-sweet/advanced/debugger">y-sweet 调试器</a></li>
+<li><a href="https://liveblocks.io/devtools">liveblocks 开发工具</a></li>
+<li><a href="https://inspector.yjs.dev">Yjs 检查器</a></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><a href="https://docs.jamsocket.com/y-sweet/advanced/debugger">y-sweet debugger</a></li>
+<li><a href="https://liveblocks.io/devtools">liveblocks devtools</a></li>
+<li><a href="https://inspector.yjs.dev">Yjs inspector</a></li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="_7">端口</h2>
+<p><strong>Ports</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>有多个 Yjs 兼容的其他编程语言的移植版本。</p>
+<ul>
+<li><a href="https://github.com/toeverything/y-octo">y-octo</a> - 由 <a href="https://affine.pro">AFFiNE</a> 提供的 Rust 实现</li>
+<li><a href="https://github.com/y-crdt/y-crdt">y-crdt</a> - Rust 实现，具有多个语言绑定</li>
+<li><a href="https://github.com/y-crdt/y-crdt/tree/main/yrs">yrs</a> - Rust 接口</li>
+<li><a href="https://github.com/y-crdt/ypy">ypy</a> - Python 绑定</li>
+<li><a href="https://github.com/y-crdt/yrb">yrb</a> - Ruby 绑定</li>
+<li><a href="https://github.com/y-crdt/yswift">yswift</a> - Swift 绑定</li>
+<li><a href="https://github.com/y-crdt/y-crdt/tree/main/yffi">yffi</a> - C-FFI</li>
+<li><a href="https://github.com/y-crdt/y-crdt/tree/main/ywasm">ywasm</a> - WASM 绑定</li>
+<li><a href="https://github.com/yjs/ycs">ycs</a> - .Net 兼容的 C# 实现。</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>There are several Yjs-compatible ports to other programming languages.</p>
+<ul>
+<li><a href="https://github.com/toeverything/y-octo">y-octo</a> - Rust implementation by
+<a href="https://affine.pro">AFFiNE</a></li>
+<li><a href="https://github.com/y-crdt/y-crdt">y-crdt</a> - Rust implementation with multiple
+language bindings to other languages</li>
+<li><a href="https://github.com/y-crdt/y-crdt/tree/main/yrs">yrs</a> - Rust interface</li>
+<li><a href="https://github.com/y-crdt/ypy">ypy</a> - Python binding</li>
+<li><a href="https://github.com/y-crdt/yrb">yrb</a> - Ruby binding</li>
+<li><a href="https://github.com/y-crdt/yswift">yswift</a> - Swift binding</li>
+<li><a href="https://github.com/y-crdt/y-crdt/tree/main/yffi">yffi</a> - C-FFI</li>
+<li><a href="https://github.com/y-crdt/y-crdt/tree/main/ywasm">ywasm</a> - WASM binding</li>
+<li><a href="https://github.com/yjs/ycs">ycs</a> - .Net compatible C# implementation.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+    
+  </body>
+</html>

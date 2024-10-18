@@ -1,0 +1,2387 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个具有强大共享数据抽象的 CRDT 框架">
+      
+      
+      
+      
+        <link rel="prev" href="../getting-start/">
+      
+      
+        <link rel="next" href="../crdt-algorithm/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>API - yjs-zh-cn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="yjs-zh-cn" class="md-header__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            yjs-zh-cn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="切换到白天模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到白天模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="yjs-zh-cn" class="md-nav__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    yjs-zh-cn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    共享类型
+  </a>
+  
+    <nav class="md-nav" aria-label="共享类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yarray" class="md-nav__link">
+    Y.Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ymap" class="md-nav__link">
+    Y.Map
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ytext" class="md-nav__link">
+    Y.Text
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yxmlfragment" class="md-nav__link">
+    Y.XmlFragment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yxmlelement" class="md-nav__link">
+    Y.XmlElement
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ydoc" class="md-nav__link">
+    Y.Doc
+  </a>
+  
+    <nav class="md-nav" aria-label="Y.Doc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ydoc_1" class="md-nav__link">
+    Y.Doc 事件
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    文档更新
+  </a>
+  
+    <nav class="md-nav" aria-label="文档更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    示例：监听更新事件并在远程客户端上应用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    示例：通过交换完整文档结构同步两个客户端
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    示例：通过计算差异同步两个客户端
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ydoc_2" class="md-nav__link">
+    示例：在不加载 Y.Doc 的情况下同步客户端
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    混淆更新
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v2" class="md-nav__link">
+    使用 V2 更新格式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    更新 API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    相对位置
+  </a>
+  
+    <nav class="md-nav" aria-label="相对位置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    示例：转换为相对位置并返回
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    示例：将相对位置发送给远程客户端（json）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uint8array" class="md-nav__link">
+    示例：将相对位置发送给远程客户端（Uint8Array）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yundomanager" class="md-nav__link">
+    Y.UndoManager
+  </a>
+  
+    <nav class="md-nav" aria-label="Y.UndoManager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    示例：停止捕获
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    示例：指定跟踪来源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stackitems" class="md-nav__link">
+    示例：向 StackItems 添加额外信息
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crdt-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs CRDT 算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTERNALS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs 内部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    许可证和作者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    共享类型
+  </a>
+  
+    <nav class="md-nav" aria-label="共享类型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#yarray" class="md-nav__link">
+    Y.Array
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ymap" class="md-nav__link">
+    Y.Map
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ytext" class="md-nav__link">
+    Y.Text
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yxmlfragment" class="md-nav__link">
+    Y.XmlFragment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yxmlelement" class="md-nav__link">
+    Y.XmlElement
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ydoc" class="md-nav__link">
+    Y.Doc
+  </a>
+  
+    <nav class="md-nav" aria-label="Y.Doc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ydoc_1" class="md-nav__link">
+    Y.Doc 事件
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    文档更新
+  </a>
+  
+    <nav class="md-nav" aria-label="文档更新">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    示例：监听更新事件并在远程客户端上应用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    示例：通过交换完整文档结构同步两个客户端
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    示例：通过计算差异同步两个客户端
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ydoc_2" class="md-nav__link">
+    示例：在不加载 Y.Doc 的情况下同步客户端
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    混淆更新
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v2" class="md-nav__link">
+    使用 V2 更新格式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    更新 API
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    相对位置
+  </a>
+  
+    <nav class="md-nav" aria-label="相对位置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    示例：转换为相对位置并返回
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json" class="md-nav__link">
+    示例：将相对位置发送给远程客户端（json）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uint8array" class="md-nav__link">
+    示例：将相对位置发送给远程客户端（Uint8Array）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yundomanager" class="md-nav__link">
+    Y.UndoManager
+  </a>
+  
+    <nav class="md-nav" aria-label="Y.UndoManager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    示例：停止捕获
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    示例：指定跟踪来源
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stackitems" class="md-nav__link">
+    示例：向 StackItems 添加额外信息
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="api">API</h1>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">Y</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;yjs&#39;</span>
+</code></pre></div>
+<h2 id="_1">共享类型</h2>
+<p><strong>Shared Types</strong></p>
+<h3 id="yarray">Y.Array</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><p>
+一种可共享的类数组类型，支持在任何位置高效地插入/删除元素。内部使用链表的数组，在必要时进行拆分。
+</p>
+<pre>const yarray = new Y.Array()</pre>
+<dl>
+<b><code>
+Y.Array.from(Array&lt;object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;):
+Y.Array
+</code></b>
+<dd>基于现有内容创建 Y.Array 的替代工厂函数。</dd>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:Array&lt;object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;)</code></b>
+<dd>
+在 <var>index</var> 插入内容。注意，内容是元素的数组。
+即 <code>array.insert(0, [1])</code> 会在位置 0 插入 1。
+</dd>
+<b><code>push(Array&lt;Object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;)</code></b>
+<dd></dd>
+<b><code>unshift(Array&lt;Object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;)</code></b>
+<dd></dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>get(index:number)</code></b>
+<dd></dd>
+<b><code>slice(start:number, end:number):Array&lt;Object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;</code></b>
+<dd>检索内容的范围</dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b>
+    <code>
+forEach(function(value:object|boolean|Array|string|number|null|Uint8Array|Y.Type,
+index:number, array: Y.Array))
+    </code>
+</b>
+<dd></dd>
+<b><code>map(function(T, number, YArray):M):Array&lt;M&gt;</code></b>
+<dd></dd>
+<b><code>clone(): Y.Array</code></b>
+<dd>
+将所有值克隆到一个新的 Y.Array 实例中。返回的类型可以包含到 Yjs 文档中。
+</dd>
+<b><code>toArray():Array&lt;object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;</code></b>
+<dd>将此 YArray 的内容复制到一个新数组中。</dd>
+<b><code>toJSON():Array&lt;Object|boolean|Array|string|number|null&gt;</code></b>
+<dd>
+将此 YArray 的内容复制到一个新数组中。它使用其 <code>toJSON</code> 方法将所有子类型转换为 JSON。
+</dd>
+<b><code>[Symbol.Iterator]</code></b>
+<dd>
+    返回一个 YArray 迭代器，包含数组中每个索引的值。
+    <pre>for (let value of yarray) { .. }</pre>
+</dd>
+<b><code>observe(function(YArrayEvent, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。
+</dd>
+<b><code>unobserve(function(YArrayEvent, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observe</code> 事件监听器。
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型或其任何子项时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。事件监听器接收由自身或任何子项创建的所有事件。
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observeDeep</code> 事件监听器。
+</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><p>
+A shareable Array-like type that supports efficient insert/delete of elements
+at any position. Internally it uses a linked list of Arrays that is split when
+necessary.
+</p>
+<pre>const yarray = new Y.Array()</pre>
+<dl>
+<b><code>
+Y.Array.from(Array&lt;object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;):
+Y.Array
+</code></b>
+<dd>An alternative factory function to create a Y.Array based on existing content.</dd>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:Array&lt;object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;)</code></b>
+<dd>
+Insert content at <var>index</var>. Note that content is an array of elements.
+I.e. <code>array.insert(0, [1])</code> splices the list and inserts 1 at
+position 0.
+</dd>
+<b><code>push(Array&lt;Object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;)</code></b>
+<dd></dd>
+<b><code>unshift(Array&lt;Object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;)</code></b>
+<dd></dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>get(index:number)</code></b>
+<dd></dd>
+<b><code>slice(start:number, end:number):Array&lt;Object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;</code></b>
+<dd>Retrieve a range of content</dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b>
+    <code>
+forEach(function(value:object|boolean|Array|string|number|null|Uint8Array|Y.Type,
+index:number, array: Y.Array))
+    </code>
+</b>
+<dd></dd>
+<b><code>map(function(T, number, YArray):M):Array&lt;M&gt;</code></b>
+<dd></dd>
+<b><code>clone(): Y.Array</code></b>
+<dd>
+Clone all values into a fresh Y.Array instance. The returned type can be
+included into the Yjs document.
+</dd>
+<b><code>toArray():Array&lt;object|boolean|Array|string|number|null|Uint8Array|Y.Type&gt;</code></b>
+<dd>Copies the content of this YArray to a new Array.</dd>
+<b><code>toJSON():Array&lt;Object|boolean|Array|string|number|null&gt;</code></b>
+<dd>
+Copies the content of this YArray to a new Array. It transforms all child types
+to JSON using their <code>toJSON</code> method.
+</dd>
+<b><code>[Symbol.Iterator]</code></b>
+<dd>
+    Returns an YArray Iterator that contains the values for each index in the array.
+    <pre>for (let value of yarray) { .. }</pre>
+</dd>
+<b><code>observe(function(YArrayEvent, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type is modified. In the case this type is modified in the event listener,
+the event listener will be called again after the current event listener returns.
+</dd>
+<b><code>unobserve(function(YArrayEvent, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observe</code> event listener from this type.
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type or any of its children is modified. In the case this type is modified
+in the event listener, the event listener will be called again after the current
+event listener returns. The event listener receives all Events created by itself
+or any of its children.
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observeDeep</code> event listener from this type.
+</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h3 id="ymap">Y.Map</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><p>
+一种可共享的 Map 类型。
+</p>
+<pre><code>const ymap = new Y.Map()</code></pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>size: number</code></b>
+<dd>键/值对的总数。</dd>
+<b><code>get(key:string):object|boolean|string|number|null|Uint8Array|Y.Type</code></b>
+<dd></dd>
+<b><code>set(key:string, value:object|boolean|string|number|null|Uint8Array|Y.Type)</code></b>
+<dd></dd>
+<b><code>delete(key:string)</code></b>
+<dd></dd>
+<b><code>has(key:string):boolean</code></b>
+<dd></dd>
+<b><code>clear()</code></b>
+<dd>从此 YMap 中移除所有元素。</dd>
+<b><code>clone():Y.Map</code></b>
+<dd>将此类型克隆为一个新的 Yjs 类型。</dd>
+<b><code>toJSON():Object&lt;string, Object|boolean|Array|string|number|null|Uint8Array&gt;</code></b>
+<dd>
+将此 YMap 的 <code>[key,value]</code> 对复制到一个新对象。它使用其 <code>toJSON</code> 方法将所有子类型转换为 JSON。
+</dd>
+<b><code>forEach(function(value:object|boolean|Array|string|number|null|Uint8Array|Y.Type,
+key:string, map: Y.Map))</code></b>
+<dd>
+    对每个键值对执行提供的函数一次。
+</dd>
+<b><code>[Symbol.Iterator]</code></b>
+<dd>
+    返回一个 <code>[key, value]</code> 对的迭代器。
+    <pre>for (let [key, value] of ymap) { .. }</pre>
+</dd>
+<b><code>entries()</code></b>
+<dd>
+    返回一个 <code>[key, value]</code> 对的迭代器。
+</dd>
+<b><code>values()</code></b>
+<dd>
+    返回所有值的迭代器。
+</dd>
+<b><code>keys()</code></b>
+<dd>
+    返回所有键的迭代器。
+</dd>
+<b><code>observe(function(YMapEvent, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。
+</dd>
+<b><code>unobserve(function(YMapEvent, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observe</code> 事件监听器。
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型或其任何子项时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。事件监听器接收由自身或任何子项创建的所有事件。
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observeDeep</code> 事件监听器。
+</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><p>
+A shareable Map type.
+</p>
+<pre><code>const ymap = new Y.Map()</code></pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>size: number</code></b>
+<dd>Total number of key/value pairs.</dd>
+<b><code>get(key:string):object|boolean|string|number|null|Uint8Array|Y.Type</code></b>
+<dd></dd>
+<b><code>set(key:string, value:object|boolean|string|number|null|Uint8Array|Y.Type)</code></b>
+<dd></dd>
+<b><code>delete(key:string)</code></b>
+<dd></dd>
+<b><code>has(key:string):boolean</code></b>
+<dd></dd>
+<b><code>clear()</code></b>
+<dd>Removes all elements from this YMap.</dd>
+<b><code>clone():Y.Map</code></b>
+<dd>Clone this type into a fresh Yjs type.</dd>
+<b><code>toJSON():Object&lt;string, Object|boolean|Array|string|number|null|Uint8Array&gt;</code></b>
+<dd>
+Copies the <code>[key,value]</code> pairs of this YMap to a new Object.It
+transforms all child types to JSON using their <code>toJSON</code> method.
+</dd>
+<b><code>forEach(function(value:object|boolean|Array|string|number|null|Uint8Array|Y.Type,
+key:string, map: Y.Map))</code></b>
+<dd>
+    Execute the provided function once for every key-value pair.
+</dd>
+<b><code>[Symbol.Iterator]</code></b>
+<dd>
+    Returns an Iterator of <code>[key, value]</code> pairs.
+    <pre>for (let [key, value] of ymap) { .. }</pre>
+</dd>
+<b><code>entries()</code></b>
+<dd>
+    Returns an Iterator of <code>[key, value]</code> pairs.
+</dd>
+<b><code>values()</code></b>
+<dd>
+    Returns an Iterator of all values.
+</dd>
+<b><code>keys()</code></b>
+<dd>
+    Returns an Iterator of all keys.
+</dd>
+<b><code>observe(function(YMapEvent, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type is modified. In the case this type is modified in the event listener,
+the event listener will be called again after the current event listener returns.
+</dd>
+<b><code>unobserve(function(YMapEvent, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observe</code> event listener from this type.
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type or any of its children is modified. In the case this type is modified
+in the event listener, the event listener will be called again after the current
+event listener returns. The event listener receives all Events created by itself
+or any of its children.
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observeDeep</code> event listener from this type.
+</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h3 id="ytext">Y.Text</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><p>
+一种可共享的类型，专为文本的共享编辑而优化。它允许为文本中的范围分配属性。这使得实现丰富文本绑定成为可能。
+</p>
+<p>
+该类型还可以转换为
+<a href="https://quilljs.com/docs/delta">delta 格式</a>。类似地，YTextEvents 计算变化为增量。
+</p>
+<pre>const ytext = new Y.Text()</pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:string, [formattingAttributes:Object&lt;string,string&gt;])</code></b>
+<dd>
+    在 <var>index</var> 插入字符串并为其分配格式属性。
+    <pre>ytext.insert(0, 'bold text', { bold: true })</pre>
+</dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>format(index:number, length:number, formattingAttributes:Object&lt;string,string&gt;)</code></b>
+<dd>为文本中的范围分配格式属性</dd>
+<b><code>applyDelta(delta: Delta, opts:Object&lt;string,any&gt;)</code></b>
+<dd>
+    参见 <a href="https://quilljs.com/docs/delta/">Quill Delta</a>
+    可以设置选项以防止移除结尾的新行，默认值为 true。
+    <pre>ytext.applyDelta(delta, { sanitize: false })</pre>
+</dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b><code>toString():string</code></b>
+<dd>将此类型（不带格式选项）转换为字符串。</dd>
+<b><code>toJSON():string</code></b>
+<dd>参见 <code>toString</code></dd>
+<b><code>toDelta():Delta</code></b>
+<dd>
+将此类型转换为 <a href="https://quilljs.com/docs/delta/">Quill Delta</a>
+</dd>
+<b><code>observe(function(YTextEvent, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。
+</dd>
+<b><code>unobserve(function(YTextEvent, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observe</code> 事件监听器。
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型或其任何子项时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。事件监听器接收由自身或任何子项创建的所有事件。
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observeDeep</code> 事件监听器。
+</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><p>
+A shareable type that is optimized for shared editing on text. It allows to
+assign properties to ranges in the text. This makes it possible to implement
+rich-text bindings to this type.
+</p>
+<p>
+This type can also be transformed to the
+<a href="https://quilljs.com/docs/delta">delta format</a>. Similarly the
+YTextEvents compute changes as deltas.
+</p>
+<pre>const ytext = new Y.Text()</pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:string, [formattingAttributes:Object&lt;string,string&gt;])</code></b>
+<dd>
+    Insert a string at <var>index</var> and assign formatting attributes to it.
+    <pre>ytext.insert(0, 'bold text', { bold: true })</pre>
+</dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>format(index:number, length:number, formattingAttributes:Object&lt;string,string&gt;)</code></b>
+<dd>Assign formatting attributes to a range in the text</dd>
+<b><code>applyDelta(delta: Delta, opts:Object&lt;string,any&gt;)</code></b>
+<dd>
+    See <a href="https://quilljs.com/docs/delta/">Quill Delta</a>
+    Can set options for preventing remove ending newLines, default is true.
+    <pre>ytext.applyDelta(delta, { sanitize: false })</pre>
+</dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b><code>toString():string</code></b>
+<dd>Transforms this type, without formatting options, into a string.</dd>
+<b><code>toJSON():string</code></b>
+<dd>See <code>toString</code></dd>
+<b><code>toDelta():Delta</code></b>
+<dd>
+Transforms this type to a <a href="https://quilljs.com/docs/delta/">Quill Delta</a>
+</dd>
+<b><code>observe(function(YTextEvent, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type is modified. In the case this type is modified in the event listener,
+the event listener will be called again after the current event listener returns.
+</dd>
+<b><code>unobserve(function(YTextEvent, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observe</code> event listener from this type.
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type or any of its children is modified. In the case this type is modified
+in the event listener, the event listener will be called again after the current
+event listener returns. The event listener receives all Events created by itself
+or any of its children.
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observeDeep</code> event listener from this type.
+</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h3 id="yxmlfragment">Y.XmlFragment</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><p>
+一个包含 Y.XmlElements 数组的容器。
+</p>
+<pre><code>const yxml = new Y.XmlFragment()</code></pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>firstChild:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:Array&lt;Y.XmlElement|Y.XmlText&gt;)</code></b>
+<dd></dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>get(index:number)</code></b>
+<dd></dd>
+<b><code>slice(start:number, end:number):Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>检索内容范围</dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b><code>clone():Y.XmlFragment</code></b>
+<dd>将此类型克隆为一个新的 Yjs 类型。</dd>
+<b><code>toArray():Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>将子项复制到一个新的数组中。</dd>
+<b><code>toDOM():DocumentFragment</code></b>
+<dd>将此类型及所有子项转换为新的 DOM 元素。</dd>
+<b><code>toString():string</code></b>
+<dd>获取所有后代的 XML 序列化。</dd>
+<b><code>toJSON():string</code></b>
+<dd>参见 <code>toString</code>。</dd>
+<b><code>createTreeWalker(filter: function(AbstractType&lt;any&gt;):boolean):Iterable</code></b>
+<dd>创建一个可迭代对象，以遍历子项。</dd>
+<b><code>observe(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。
+</dd>
+<b><code>unobserve(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observe</code> 事件监听器。
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型或其任何子项时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。事件监听器接收由自身或任何子项创建的所有事件。
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observeDeep</code> 事件监听器。
+</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><p>
+A container that holds an Array of Y.XmlElements.
+</p>
+<pre><code>const yxml = new Y.XmlFragment()</code></pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>firstChild:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:Array&lt;Y.XmlElement|Y.XmlText&gt;)</code></b>
+<dd></dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>get(index:number)</code></b>
+<dd></dd>
+<b><code>slice(start:number, end:number):Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>Retrieve a range of content</dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b><code>clone():Y.XmlFragment</code></b>
+<dd>Clone this type into a fresh Yjs type.</dd>
+<b><code>toArray():Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>Copies the children to a new Array.</dd>
+<b><code>toDOM():DocumentFragment</code></b>
+<dd>Transforms this type and all children to new DOM elements.</dd>
+<b><code>toString():string</code></b>
+<dd>Get the XML serialization of all descendants.</dd>
+<b><code>toJSON():string</code></b>
+<dd>See <code>toString</code>.</dd>
+<b><code>createTreeWalker(filter: function(AbstractType&lt;any&gt;):boolean):Iterable</code></b>
+<dd>Create an Iterable that walks through the children.</dd>
+<b><code>observe(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type is modified. In the case this type is modified in the event listener,
+the event listener will be called again after the current event listener returns.
+</dd>
+<b><code>unobserve(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observe</code> event listener from this type.
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type or any of its children is modified. In the case this type is modified
+in the event listener, the event listener will be called again after the current
+event listener returns. The event listener receives all Events created by itself
+or any of its children.
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observeDeep</code> event listener from this type.
+</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h3 id="yxmlelement">Y.XmlElement</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><p>
+一个可共享的类型，表示一个 XML 元素。它具有 <code>nodeName</code>、属性和子项列表，但并不努力验证其内容或确保符合 XML 标准。
+</p>
+<pre><code>const yxml = new Y.XmlElement()</code></pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>firstChild:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>nextSibling:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>prevSibling:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:Array&lt;Y.XmlElement|Y.XmlText&gt;)</code></b>
+<dd></dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>get(index:number)</code></b>
+<dd></dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b><code>setAttribute(attributeName:string, attributeValue:string)</code></b>
+<dd></dd>
+<b><code>removeAttribute(attributeName:string)</code></b>
+<dd></dd>
+<b><code>getAttribute(attributeName:string):string</code></b>
+<dd></dd>
+<b><code>getAttributes():Object&lt;string,string&gt;</code></b>
+<dd></dd>
+<b><code>get(i:number):Y.XmlElement|Y.XmlText</code></b>
+<dd>检索第 i 个元素。</dd>
+<b><code>slice(start:number, end:number):Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>检索内容范围</dd>
+<b><code>clone():Y.XmlElement</code></b>
+<dd>将此类型克隆为一个新的 Yjs 类型。</dd>
+<b><code>toArray():Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>将子项复制到一个新的数组中。</dd>
+<b><code>toDOM():Element</code></b>
+<dd>将此类型及所有子项转换为一个新的 DOM 元素。</dd>
+<b><code>toString():string</code></b>
+<dd>获取所有后代的 XML 序列化。</dd>
+<b><code>toJSON():string</code></b>
+<dd>参见 <code>toString</code>。</dd>
+<b><code>observe(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。
+</dd>
+<b><code>unobserve(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observe</code> 事件监听器。
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+为此类型添加一个事件监听器，每次修改此类型或其任何子项时都会同步调用。若在事件监听器中修改了此类型，当前事件监听器返回后会再次调用该事件监听器。事件监听器接收由自身或任何子项创建的所有事件。
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    从此类型移除 <code>observeDeep</code> 事件监听器。
+</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><p>
+A shareable type that represents an XML Element. It has a <code>nodeName</code>,
+attributes, and a list of children. But it makes no effort to validate its
+content and be actually XML compliant.
+</p>
+<pre><code>const yxml = new Y.XmlElement()</code></pre>
+<dl>
+<b><code>parent:Y.AbstractType|null</code></b>
+<dd></dd>
+<b><code>firstChild:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>nextSibling:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>prevSibling:Y.XmlElement|Y.XmlText|null</code></b>
+<dd></dd>
+<b><code>insert(index:number, content:Array&lt;Y.XmlElement|Y.XmlText&gt;)</code></b>
+<dd></dd>
+<b><code>delete(index:number, length:number)</code></b>
+<dd></dd>
+<b><code>get(index:number)</code></b>
+<dd></dd>
+<b><code>length:number</code></b>
+<dd></dd>
+<b><code>setAttribute(attributeName:string, attributeValue:string)</code></b>
+<dd></dd>
+<b><code>removeAttribute(attributeName:string)</code></b>
+<dd></dd>
+<b><code>getAttribute(attributeName:string):string</code></b>
+<dd></dd>
+<b><code>getAttributes():Object&lt;string,string&gt;</code></b>
+<dd></dd>
+<b><code>get(i:number):Y.XmlElement|Y.XmlText</code></b>
+<dd>Retrieve the i-th element.</dd>
+<b><code>slice(start:number, end:number):Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>Retrieve a range of content</dd>
+<b><code>clone():Y.XmlElement</code></b>
+<dd>Clone this type into a fresh Yjs type.</dd>
+<b><code>toArray():Array&lt;Y.XmlElement|Y.XmlText&gt;</code></b>
+<dd>Copies the children to a new Array.</dd>
+<b><code>toDOM():Element</code></b>
+<dd>Transforms this type and all children to a new DOM element.</dd>
+<b><code>toString():string</code></b>
+<dd>Get the XML serialization of all descendants.</dd>
+<b><code>toJSON():string</code></b>
+<dd>See <code>toString</code>.</dd>
+<b><code>observe(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every
+time this type is modified. In the case this type is modified in the event
+listener, the event listener will be called again after the current event
+listener returns.
+</dd>
+<b><code>unobserve(function(YXmlEvent, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observe</code> event listener from this type.
+</dd>
+<b><code>observeDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+Adds an event listener to this type that will be called synchronously every time
+this type or any of its children is modified. In the case this type is modified
+in the event listener, the event listener will be called again after the current
+event listener returns. The event listener receives all Events created by itself
+or any of its children.
+</dd>
+<b><code>unobserveDeep(function(Array&lt;YEvent&gt;, Transaction):void)</code></b>
+<dd>
+    Removes an <code>observeDeep</code> event listener from this type.
+</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h2 id="ydoc">Y.Doc</h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+</code></pre></div>
+<p><dl>
+  <b><code>clientID</code></b>
+  <dd>一个唯一的 ID，用于标识此客户端。（只读）</dd>
+  <b><code>gc</code></b>
+  <dd>
+是否在此文档实例上启用垃圾回收。设置 <code>doc.gc = false</code> 以禁用垃圾回收并能够恢复旧内容。有关 Yjs 中垃圾回收的更多信息，请参见 https://github.com/yjs/yjs#yjs-crdt-algorithm。
+  </dd>
+  <b><code>transact(function(Transaction):void [, origin:any])</code></b>
+  <dd>
+每次对共享文档的更改都发生在一个事务中。观察者调用和 <code>update</code> 事件在每个事务后被调用。您应该将更改<i>打包</i>到一个单独的事务中，以减少事件调用的数量。即 <code>doc.transact(() =&gt; { yarray.insert(..); ymap.set(..) })</code> 触发一个单一的更改事件。<br>您可以指定一个可选的 <code>origin</code> 参数，该参数存储在 <code>transaction.origin</code> 和 <code>on('update', (update, origin) =&gt; ..)</code> 中。
+  </dd>
+  <b><code>toJSON():any</code></b>
+  <dd>
+已弃用：建议直接在共享类型上调用 toJSON。将整个文档转换为 js 对象，递归遍历每个 yjs 类型。不会记录未定义的类型（使用 <code>ydoc.getType(..)</code>）。
+  </dd>
+  <b><code>get(string, Y.[TypeClass]):[Type]</code></b>
+  <dd>定义一个共享类型。</dd>
+  <b><code>getArray(string):Y.Array</code></b>
+  <dd>定义一个共享的 Y.Array 类型。相当于 <code>y.get(string, Y.Array)</code>。</dd>
+  <b><code>getMap(string):Y.Map</code></b>
+  <dd>定义一个共享的 Y.Map 类型。相当于 <code>y.get(string, Y.Map)</code>。</dd>
+  <b><code>getText(string):Y.Text</code></b>
+  <dd>定义一个共享的 Y.Text 类型。相当于 <code>y.get(string, Y.Text)</code>。</dd>
+  <b><code>getXmlElement(string, string):Y.XmlElement</code></b>
+  <dd>定义一个共享的 Y.XmlElement 类型。相当于 <code>y.get(string, Y.XmlElement)</code>。</dd>
+  <b><code>getXmlFragment(string):Y.XmlFragment</code></b>
+  <dd>定义一个共享的 Y.XmlFragment 类型。相当于 <code>y.get(string, Y.XmlFragment)</code>。</dd>
+  <b><code>on(string, function)</code></b>
+  <dd>在共享类型上注册一个事件监听器</dd>
+  <b><code>off(string, function)</code></b>
+  <dd>从共享类型中注销一个事件监听器</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+</code></pre></div>
+<p><dl>
+  <b><code>clientID</code></b>
+  <dd>A unique id that identifies this client. (readonly)</dd>
+  <b><code>gc</code></b>
+  <dd>
+Whether garbage collection is enabled on this doc instance. Set <code>doc.gc = false</code>
+in order to disable gc and be able to restore old content. See https://github.com/yjs/yjs#yjs-crdt-algorithm
+for more information about gc in Yjs.
+  </dd>
+  <b><code>transact(function(Transaction):void [, origin:any])</code></b>
+  <dd>
+Every change on the shared document happens in a transaction. Observer calls and
+the <code>update</code> event are called after each transaction. You should
+<i>bundle</i> changes into a single transaction to reduce the amount of event
+calls. I.e. <code>doc.transact(() =&gt; { yarray.insert(..); ymap.set(..) })</code>
+triggers a single change event. <br>You can specify an optional <code>origin</code>
+parameter that is stored on <code>transaction.origin</code> and
+<code>on('update', (update, origin) =&gt; ..)</code>.
+  </dd>
+  <b><code>toJSON():any</code></b>
+  <dd>
+Deprecated: It is recommended to call toJSON directly on the shared types.
+Converts the entire document into a js object, recursively traversing each yjs
+type. Doesn't log types that have not been defined (using
+<code>ydoc.getType(..)</code>).
+  </dd>
+  <b><code>get(string, Y.[TypeClass]):[Type]</code></b>
+  <dd>Define a shared type.</dd>
+  <b><code>getArray(string):Y.Array</code></b>
+  <dd>Define a shared Y.Array type. Is equivalent to <code>y.get(string, Y.Array)</code>.</dd>
+  <b><code>getMap(string):Y.Map</code></b>
+  <dd>Define a shared Y.Map type. Is equivalent to <code>y.get(string, Y.Map)</code>.</dd>
+  <b><code>getText(string):Y.Text</code></b>
+  <dd>Define a shared Y.Text type. Is equivalent to <code>y.get(string, Y.Text)</code>.</dd>
+  <b><code>getXmlElement(string, string):Y.XmlElement</code></b>
+  <dd>Define a shared Y.XmlElement type. Is equivalent to <code>y.get(string, Y.XmlElement)</code>.</dd>
+  <b><code>getXmlFragment(string):Y.XmlFragment</code></b>
+  <dd>Define a shared Y.XmlFragment type. Is equivalent to <code>y.get(string, Y.XmlFragment)</code>.</dd>
+  <b><code>on(string, function)</code></b>
+  <dd>Register an event listener on the shared type</dd>
+  <b><code>off(string, function)</code></b>
+  <dd>Unregister an event listener from the shared type</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h3 id="ydoc_1">Y.Doc 事件</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><dl>
+  <b><code>on('update', function(updateMessage:Uint8Array, origin:any, Y.Doc):void)</code></b>
+  <dd>
+监听文档更新。文档更新必须传递给所有其他对等方。您可以以任何顺序和多次应用文档更新。使用 <code>updateV2</code> 接收 V2 事件。
+  </dd>
+  <b><code>on('beforeTransaction', function(Y.Transaction, Y.Doc):void)</code></b>
+  <dd>在每个事务之前发出。</dd>
+  <b><code>on('afterTransaction', function(Y.Transaction, Y.Doc):void)</code></b>
+  <dd>在每个事务之后发出。</dd>
+  <b><code>on('beforeAllTransactions', function(Y.Doc):void)</code></b>
+  <dd>
+事务可以嵌套（例如，当一个事务中的事件调用另一个事务时）。在第一个事务之前发出。
+  </dd>
+  <b><code>on('afterAllTransactions', function(Y.Doc, Array&lt;Y.Transaction&gt;):void)</code></b>
+  <dd>在最后一个事务清理后发出。</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><dl>
+  <b><code>on('update', function(updateMessage:Uint8Array, origin:any, Y.Doc):void)</code></b>
+  <dd>
+Listen to document updates. Document updates must be transmitted to all other
+peers. You can apply document updates in any order and multiple times. Use <code>updateV2</code>
+to receive V2 events.
+  </dd>
+  <b><code>on('beforeTransaction', function(Y.Transaction, Y.Doc):void)</code></b>
+  <dd>Emitted before each transaction.</dd>
+  <b><code>on('afterTransaction', function(Y.Transaction, Y.Doc):void)</code></b>
+  <dd>Emitted after each transaction.</dd>
+  <b><code>on('beforeAllTransactions', function(Y.Doc):void)</code></b>
+  <dd>
+Transactions can be nested (e.g. when an event within a transaction calls another
+transaction). Emitted before the first transaction.
+  </dd>
+  <b><code>on('afterAllTransactions', function(Y.Doc, Array&lt;Y.Transaction&gt;):void)</code></b>
+  <dd>Emitted after the last transaction is cleaned up.</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h2 id="_2">文档更新</h2>
+<p><strong>Document Updates</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">中文</label><label for="__tabbed_8_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>对共享文档的更改被编码为 <em>文档更新</em>。文档更新是 <em>交换律</em> 和 <em>幂等</em> 的。这意味着它们可以以任何顺序和多次应用。</p>
+</div>
+<div class="tabbed-block">
+<p>Changes on the shared document are encoded into <em>document updates</em>. Document
+updates are <em>commutative</em> and <em>idempotent</em>. This means that they can be applied
+in any order and multiple times.</p>
+</div>
+</div>
+</div>
+<h3 id="_3">示例：监听更新事件并在远程客户端上应用</h3>
+<p><strong>Example: Sync two clients by exchanging the complete document structure</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">中文</label><label for="__tabbed_9_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">doc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">doc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+
+<span class="nx">doc1</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">doc2</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="nx">doc2</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">doc1</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="c1">// 所有更改也应用于另一个文档</span>
+<span class="nx">doc1</span><span class="p">.</span><span class="nx">getArray</span><span class="p">(</span><span class="s1">&#39;myarray&#39;</span><span class="p">).</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;Hello doc2, you got this?&#39;</span><span class="p">])</span>
+<span class="nx">doc2</span><span class="p">.</span><span class="nx">getArray</span><span class="p">(</span><span class="s1">&#39;myarray&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="c1">// =&gt; &#39;Hello doc2, you got this?&#39;</span>
+</code></pre></div>
+<p>Yjs 内部维护一个 <a href="#state-vector">状态向量</a>，表示每个客户端期望的下一个时钟。在不同的解释中，它保存由每个客户端创建的结构数量。当两个客户端同步时，您可以选择交换完整的文档结构或仅发送状态向量以计算差异。</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">doc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">doc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+
+<span class="nx">doc1</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">doc2</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="nx">doc2</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">doc1</span><span class="p">,</span><span class="w"> </span><span class="nx">update</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="c1">// All changes are also applied to the other document</span>
+<span class="nx">doc1</span><span class="p">.</span><span class="nx">getArray</span><span class="p">(</span><span class="s1">&#39;myarray&#39;</span><span class="p">).</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;Hello doc2, you got this?&#39;</span><span class="p">])</span>
+<span class="nx">doc2</span><span class="p">.</span><span class="nx">getArray</span><span class="p">(</span><span class="s1">&#39;myarray&#39;</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="mf">0</span><span class="p">)</span><span class="w"> </span><span class="c1">// =&gt; &#39;Hello doc2, you got this?&#39;</span>
+</code></pre></div>
+<p>Yjs internally maintains a <a href="#state-vector">state vector</a> that denotes the next
+expected clock from each client. In a different interpretation it holds the
+number of structs created by each client. When two clients sync, you can either
+exchange the complete document structure or only the differences by sending the
+state vector to compute the differences.</p>
+</div>
+</div>
+</div>
+<h3 id="_4">示例：通过交换完整文档结构同步两个客户端</h3>
+<p><strong>Example: Sync two clients by exchanging the complete document structure</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">state1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">state2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">)</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">,</span><span class="w"> </span><span class="nx">state2</span><span class="p">)</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">state1</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_5">示例：通过计算差异同步两个客户端</h3>
+<p><strong>Example: Sync two clients by computing the differences</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">中文</label><label for="__tabbed_10_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>此示例演示如何通过仅使用远程客户端的状态向量计算差异，以最小的数据交换量同步两个客户端。使用状态向量同步客户端需要额外的往返，但可以节省大量带宽。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">stateVector1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVector</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">stateVector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVector</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector1</span><span class="p">)</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">,</span><span class="w"> </span><span class="nx">diff2</span><span class="p">)</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">diff1</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>This example shows how to sync two clients with the minimal amount of exchanged
+data by computing only the differences using the state vector of the remote
+client. Syncing clients using the state vector requires another roundtrip, but
+can save a lot of bandwidth.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">stateVector1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVector</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">stateVector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVector</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector1</span><span class="p">)</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">,</span><span class="w"> </span><span class="nx">diff2</span><span class="p">)</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">diff1</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="ydoc_2">示例：在不加载 Y.Doc 的情况下同步客户端</h3>
+<p><strong>Example: Syncing clients without loading the Y.Doc</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">中文</label><label for="__tabbed_11_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>可以在不将 Yjs 文档加载到内存中的情况下同步客户端并计算增量更新。Yjs 提供一个 API 以直接在二进制文档更新上计算差异。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 将当前状态编码为二进制缓冲区</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">currentState1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">currentState2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">)</span>
+<span class="c1">// 现在我们可以继续使用状态向量同步客户端，而不使用 Y.Doc</span>
+<span class="nx">ydoc1</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+<span class="nx">ydoc2</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">stateVector1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVectorFromUpdate</span><span class="p">(</span><span class="nx">currentState1</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">stateVector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVectorFromUpdate</span><span class="p">(</span><span class="nx">currentState2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">diffUpdate</span><span class="p">(</span><span class="nx">currentState1</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">diffUpdate</span><span class="p">(</span><span class="nx">currentState2</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector1</span><span class="p">)</span>
+
+<span class="c1">// 同步客户端</span>
+<span class="nx">currentState1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">mergeUpdates</span><span class="p">([</span><span class="nx">currentState1</span><span class="p">,</span><span class="w"> </span><span class="nx">diff2</span><span class="p">])</span>
+<span class="nx">currentState2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">mergeUpdates</span><span class="p">([</span><span class="nx">currentState2</span><span class="p">,</span><span class="w"> </span><span class="nx">diff1</span><span class="p">])</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>It is possible to sync clients and compute delta updates without loading the Yjs
+document to memory. Yjs exposes an API to compute the differences directly on the
+binary document updates.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// encode the current state as a binary buffer</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">currentState1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc1</span><span class="p">)</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">currentState2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">)</span>
+<span class="c1">// now we can continue syncing clients using state vectors without using the Y.Doc</span>
+<span class="nx">ydoc1</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+<span class="nx">ydoc2</span><span class="p">.</span><span class="nx">destroy</span><span class="p">()</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">stateVector1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVectorFromUpdate</span><span class="p">(</span><span class="nx">currentState1</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">stateVector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateVectorFromUpdate</span><span class="p">(</span><span class="nx">currentState2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">diffUpdate</span><span class="p">(</span><span class="nx">currentState1</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">diff2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">diffUpdate</span><span class="p">(</span><span class="nx">currentState2</span><span class="p">,</span><span class="w"> </span><span class="nx">stateVector1</span><span class="p">)</span>
+
+<span class="c1">// sync clients</span>
+<span class="nx">currentState1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">mergeUpdates</span><span class="p">([</span><span class="nx">currentState1</span><span class="p">,</span><span class="w"> </span><span class="nx">diff2</span><span class="p">])</span>
+<span class="nx">currentState2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">mergeUpdates</span><span class="p">([</span><span class="nx">currentState2</span><span class="p">,</span><span class="w"> </span><span class="nx">diff1</span><span class="p">])</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="_6">混淆更新</h3>
+<p><strong>Obfuscating Updates</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">中文</label><label for="__tabbed_12_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>如果您的用户遇到奇怪的错误（例如，富文本编辑器抛出错误消息），您不必请求用户的完整文档。相反，他们可以在发送给您之前混淆文档（即，用无意义的生成内容替换内容）。请注意，某人可能仍会通过查看文档的一般结构来推断内容的类型。但这比请求原始文档要好得多。</p>
+<p>混淆更新包含合并所需的所有与 CRDT 相关的数据。因此，合并混淆更新是安全的。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ydoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+<span class="c1">// 进行一些更改..</span>
+<span class="nx">ydoc</span><span class="p">.</span><span class="nx">getText</span><span class="p">().</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello world&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc</span><span class="p">)</span>
+<span class="c1">// 以下更新包含混乱的数据</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">obfuscatedUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">obfuscateUpdate</span><span class="p">(</span><span class="nx">update</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">ydoc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">obfuscatedUpdate</span><span class="p">)</span>
+<span class="nx">ydoc2</span><span class="p">.</span><span class="nx">getText</span><span class="p">().</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &quot;00000000000&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>If one of your users runs into a weird bug (e.g. the rich-text editor throws
+error messages), then you don't have to request the full document from your
+user. Instead, they can obfuscate the document (i.e. replace the content with
+meaningless generated content) before sending it to you. Note that someone might
+still deduce the type of content by looking at the general structure of the
+document. But this is much better than requesting the original document.</p>
+<p>Obfuscated updates contain all the CRDT-related data that is required for
+merging. So it is safe to merge obfuscated updates.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ydoc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+<span class="c1">// perform some changes..</span>
+<span class="nx">ydoc</span><span class="p">.</span><span class="nx">getText</span><span class="p">().</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;hello world&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">update</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeStateAsUpdate</span><span class="p">(</span><span class="nx">ydoc</span><span class="p">)</span>
+<span class="c1">// the below update contains scrambled data</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">obfuscatedUpdate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">obfuscateUpdate</span><span class="p">(</span><span class="nx">update</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">ydoc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">Doc</span><span class="p">()</span>
+<span class="nx">Y</span><span class="p">.</span><span class="nx">applyUpdate</span><span class="p">(</span><span class="nx">ydoc2</span><span class="p">,</span><span class="w"> </span><span class="nx">obfuscatedUpdate</span><span class="p">)</span>
+<span class="nx">ydoc2</span><span class="p">.</span><span class="nx">getText</span><span class="p">().</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &quot;00000000000&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="v2">使用 V2 更新格式</h3>
+<p><strong>Using V2 update format</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">中文</label><label for="__tabbed_13_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Yjs 实现了两种更新格式。默认情况下，您使用的是 V1 更新格式。您可以选择使用 V2 更新格式，该格式提供了更好的压缩效果。并非所有提供者都使用它。不过，如果您正在构建自己的提供者，您已经可以使用它。所有以下函数都有后缀 "V2"。例如 <code>Y.applyUpdate</code> ⇒ <code>Y.applyUpdateV2</code>。此外，在监听更新时，您需要特别监听 V2 事件，例如 <code>yDoc.on('updateV2', …)</code>。我们还支持两种格式之间的转换函数：<code>Y.convertUpdateFormatV1ToV2</code> 和 <code>Y.convertUpdateFormatV2ToV1</code>。    </p>
+</div>
+<div class="tabbed-block">
+<p>Yjs implements two update formats. By default you are using the V1 update format.
+You can opt-in into the V2 update format which provides much better compression.
+It is not yet used by all providers. However, you can already use it if
+you are building your own provider. All below functions are available with the
+suffix "V2". E.g. <code>Y.applyUpdate</code> ⇒ <code>Y.applyUpdateV2</code>. Also when listening to updates
+you need to specifically need listen for V2 events e.g. <code>yDoc.on('updateV2', …)</code>.
+We also support conversion functions between both formats:
+<code>Y.convertUpdateFormatV1ToV2</code> &amp; <code>Y.convertUpdateFormatV2ToV1</code>.</p>
+</div>
+</div>
+</div>
+<h3 id="api_1">更新 API</h3>
+<p><strong>Update API</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">中文</label><label for="__tabbed_14_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><dl>
+  <b><code>Y.applyUpdate(Y.Doc, update:Uint8Array, [transactionOrigin:any])</code></b>
+  <dd>
+在共享文档上应用文档更新。您可以选择指定 <code>transactionOrigin</code>，该值将存储在 <code>transaction.origin</code> 和 <code>ydoc.on('update', (update, origin) =&gt; ..)</code> 中。
+  </dd>
+  <b><code>Y.encodeStateAsUpdate(Y.Doc, [encodedTargetStateVector:Uint8Array]):Uint8Array</code></b>
+  <dd>
+将文档状态编码为可以应用于远程文档的单个更新消息。可以选择指定目标状态向量，仅将差异写入更新消息。
+  </dd>
+  <b><code>Y.encodeStateVector(Y.Doc):Uint8Array</code></b>
+  <dd>计算状态向量并将其编码为 Uint8Array。</dd>
+  <b><code>Y.mergeUpdates(Array&lt;Uint8Array&gt;)</code></b>
+  <dd>
+将多个文档更新合并为单个文档更新，同时删除重复信息。合并后的文档更新始终比单独的更新更小，因为采用了压缩编码。
+  </dd>
+  <b><code>Y.encodeStateVectorFromUpdate(Uint8Array): Uint8Array</code></b>
+  <dd>
+从文档更新计算状态向量并将其编码为 Uint8Array。
+  </dd>
+  <b><code>Y.diffUpdate(update: Uint8Array, stateVector: Uint8Array): Uint8Array</code></b>
+  <dd>
+将缺失的差异编码为另一个更新消息。此函数类似于 <code>Y.encodeStateAsUpdate(ydoc, stateVector)</code>，但适用于更新。
+  </dd>
+  <b><code>convertUpdateFormatV1ToV2</code></b>
+  <dd>
+将 V1 更新格式转换为 V2 更新格式。
+  </dd>
+  <b><code>convertUpdateFormatV2ToV1</code></b>
+  <dd>
+将 V2 更新格式转换为 V1 更新格式。
+  </dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p><dl>
+  <b><code>Y.applyUpdate(Y.Doc, update:Uint8Array, [transactionOrigin:any])</code></b>
+  <dd>
+Apply a document update on the shared document. Optionally you can specify
+<code>transactionOrigin</code> that will be stored on
+<code>transaction.origin</code>
+and <code>ydoc.on('update', (update, origin) =&gt; ..)</code>.
+  </dd>
+  <b><code>Y.encodeStateAsUpdate(Y.Doc, [encodedTargetStateVector:Uint8Array]):Uint8Array</code></b>
+  <dd>
+Encode the document state as a single update message that can be applied on the
+remote document. Optionally specify the target state vector to only write the
+differences to the update message.
+  </dd>
+  <b><code>Y.encodeStateVector(Y.Doc):Uint8Array</code></b>
+  <dd>Computes the state vector and encodes it into an Uint8Array.</dd>
+  <b><code>Y.mergeUpdates(Array&lt;Uint8Array&gt;)</code></b>
+  <dd>
+Merge several document updates into a single document update while removing
+duplicate information. The merged document update is always smaller than
+the separate updates because of the compressed encoding.
+  </dd>
+  <b><code>Y.encodeStateVectorFromUpdate(Uint8Array): Uint8Array</code></b>
+  <dd>
+Computes the state vector from a document update and encodes it into an Uint8Array.
+  </dd>
+  <b><code>Y.diffUpdate(update: Uint8Array, stateVector: Uint8Array): Uint8Array</code></b>
+  <dd>
+Encode the missing differences to another update message. This function works
+similarly to <code>Y.encodeStateAsUpdate(ydoc, stateVector)</code> but works
+on updates instead.
+  </dd>
+  <b><code>convertUpdateFormatV1ToV2</code></b>
+  <dd>
+Convert V1 update format to the V2 update format.
+  </dd>
+  <b><code>convertUpdateFormatV2ToV1</code></b>
+  <dd>
+Convert V2 update format to the V1 update format.
+  </dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h2 id="_7">相对位置</h2>
+<p><strong>Relative Positions</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">中文</label><label for="__tabbed_15_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>在处理协作文档时，我们经常需要处理位置。位置可以表示光标位置、选择范围，甚至将评论分配给一段文本。正常的索引位置（以整数表示）不方便使用，因为一旦远程更改操作文档，索引范围就会失效。相对位置为您提供了一个强大的 API 来表达位置。</p>
+<p>相对位置固定于共享文档中的一个元素，并且不受远程更改的影响。即给定文档 <code>"a|c"</code>，相对位置附加到 <code>c</code>。当远程用户通过在光标之前插入一个字符来修改文档时，光标将保持附加在字符 <code>c</code> 上。<code>insert(1, 'x')("a|c") = "ax|c"</code>。当相对位置设置在文档末尾时，它将保持附加在文档的末尾。</p>
+</div>
+<div class="tabbed-block">
+<p>When working with collaborative documents, we often need to work with positions.
+Positions may represent cursor locations, selection ranges, or even assign a
+comment to a range of text. Normal index-positions (expressed as integers) are
+not convenient to use because the index-range is invalidated as soon as a remote
+change manipulates the document. Relative positions give you a powerful API to
+express positions.</p>
+<p>A relative position is fixated to an element in the shared document and is not
+affected by remote changes. I.e. given the document <code>"a|c"</code>, the relative
+position is attached to <code>c</code>. When a remote user modifies the document by
+inserting a character before the cursor, the cursor will stay attached to the
+character <code>c</code>. <code>insert(1, 'x')("a|c") = "ax|c"</code>. When the relative position is
+set to the end of the document, it will stay attached to the end of the
+document.</p>
+</div>
+</div>
+</div>
+<h3 id="_8">示例：转换为相对位置并返回</h3>
+<p><strong>Example: Transform to RelativePosition and back</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">relPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createRelativePositionFromTypeIndex</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createAbsolutePositionFromRelativePosition</span><span class="p">(</span><span class="nx">relPos</span><span class="p">,</span><span class="w"> </span><span class="nx">doc</span><span class="p">)</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">index</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+</code></pre></div>
+<h3 id="json">示例：将相对位置发送给远程客户端（json）</h3>
+<p><strong>Example: Send relative position to remote client (json)</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">relPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createRelativePositionFromTypeIndex</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">encodedRelPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">relPos</span><span class="p">)</span>
+<span class="c1">// 将 encodedRelPos 发送给远程客户端..</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">parsedRelPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">encodedRelPos</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createAbsolutePositionFromRelativePosition</span><span class="p">(</span><span class="nx">parsedRelPos</span><span class="p">,</span><span class="w"> </span><span class="nx">remoteDoc</span><span class="p">)</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">remoteytext</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">index</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+</code></pre></div>
+<h3 id="uint8array">示例：将相对位置发送给远程客户端（Uint8Array）</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">中文</label><label for="__tabbed_16_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">relPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createRelativePositionFromTypeIndex</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">encodedRelPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeRelativePosition</span><span class="p">(</span><span class="nx">relPos</span><span class="p">)</span>
+<span class="c1">// 将 encodedRelPos 发送给远程客户端..</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">parsedRelPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">decodeRelativePosition</span><span class="p">(</span><span class="nx">encodedRelPos</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createAbsolutePositionFromRelativePosition</span><span class="p">(</span><span class="nx">parsedRelPos</span><span class="p">,</span><span class="w"> </span><span class="nx">remoteDoc</span><span class="p">)</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">remoteytext</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">index</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+</code></pre></div>
+<p><dl>
+  <b><code>
+Y.createRelativePositionFromTypeIndex(type:Uint8Array|Y.Type, index: number
+[, assoc=0])
+  </code></b>
+  <dd>
+创建一个相对位置，固定于任何序列类型共享的第 i 个元素（如果 <code>assoc &gt;= 0</code>）。默认情况下，该位置与指定索引位置之后的字符关联。如果 <code>assoc &lt; 0</code>，则相对位置与指定索引位置之前的字符关联。
+  </dd>
+  <b><code>
+Y.createAbsolutePositionFromRelativePosition(RelativePosition, Y.Doc):
+{ type: Y.AbstractType, index: number, assoc: number } | null
+  </code></b>
+  <dd>
+从相对位置创建绝对位置。如果相对位置无法引用，或者类型已被删除，则结果为 null。
+  </dd>
+  <b><code>
+Y.encodeRelativePosition(RelativePosition):Uint8Array
+  </code></b>
+  <dd>
+将相对位置编码为 Uint8Array。二进制数据是文档更新的首选编码格式。如果您更喜欢 JSON 编码，可以简单地使用 JSON.stringify / JSON.parse 相对位置。
+  </dd>
+  <b><code>Y.decodeRelativePosition(Uint8Array):RelativePosition</code></b>
+  <dd>将二进制编码的相对位置解码为 RelativePosition 对象。</dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">relPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createRelativePositionFromTypeIndex</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">encodedRelPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">encodeRelativePosition</span><span class="p">(</span><span class="nx">relPos</span><span class="p">)</span>
+<span class="c1">// send encodedRelPos to remote client..</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">parsedRelPos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">decodeRelativePosition</span><span class="p">(</span><span class="nx">encodedRelPos</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">createAbsolutePositionFromRelativePosition</span><span class="p">(</span><span class="nx">parsedRelPos</span><span class="p">,</span><span class="w"> </span><span class="nx">remoteDoc</span><span class="p">)</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">remoteytext</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+<span class="nx">pos</span><span class="p">.</span><span class="nx">index</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="c1">// =&gt; true</span>
+</code></pre></div>
+<p><dl>
+  <b><code>
+Y.createRelativePositionFromTypeIndex(type:Uint8Array|Y.Type, index: number
+[, assoc=0])
+  </code></b>
+  <dd>
+Create a relative position fixated to the i-th element in any sequence-like
+shared type (if <code>assoc &gt;= 0</code>). By default, the position associates
+with the character that comes after the specified index position. If
+<code>assoc &lt; 0</code>, then the relative position associates with the character
+before the specified index position.
+  </dd>
+  <b><code>
+Y.createAbsolutePositionFromRelativePosition(RelativePosition, Y.Doc):
+{ type: Y.AbstractType, index: number, assoc: number } | null
+  </code></b>
+  <dd>
+Create an absolute position from a relative position. If the relative position
+cannot be referenced, or the type is deleted, then the result is null.
+  </dd>
+  <b><code>
+Y.encodeRelativePosition(RelativePosition):Uint8Array
+  </code></b>
+  <dd>
+Encode a relative position to an Uint8Array. Binary data is the preferred
+encoding format for document updates. If you prefer JSON encoding, you can
+simply JSON.stringify / JSON.parse the relative position instead.
+  </dd>
+  <b><code>Y.decodeRelativePosition(Uint8Array):RelativePosition</code></b>
+  <dd>Decode a binary-encoded relative position to a RelativePositon object.</dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h2 id="yundomanager">Y.UndoManager</h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">中文</label><label for="__tabbed_17_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Yjs 附带一个用于选择性撤销/重做 Yjs 类型更改的撤销/重做管理器。这些更改可以选择性地限制在事务来源上。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">getText</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">undoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">UndoManager</span><span class="p">(</span><span class="nx">ytext</span><span class="p">)</span>
+
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39;</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">redo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;abc&#39;</span>
+</code></pre></div>
+<p><dl>
+  <b><code>constructor(scope:Y.AbstractType|Array&lt;Y.AbstractType&gt;
+  [, {captureTimeout:number,trackedOrigins:Set&lt;any&gt;,deleteFilter:function(item):boolean}])</code></b>
+  <dd>接受单个类型作为范围或类型数组。</dd>
+  <b><code>undo()</code></b>
+  <dd></dd>
+  <b><code>redo()</code></b>
+  <dd></dd>
+  <b><code>stopCapturing()</code></b>
+  <dd></dd>
+  <b>
+    <code>
+on('stack-item-added', { stackItem: { meta: Map&lt;any,any&gt; }, type: 'undo'
+| 'redo' })
+    </code>
+  </b>
+  <dd>
+注册一个事件，当一个 <code>StackItem</code> 被添加到撤销或重做栈时被调用。
+  </dd>
+  <b>
+    <code>
+on('stack-item-updated', { stackItem: { meta: Map&lt;any,any&gt; }, type: 'undo'
+| 'redo' })
+    </code>
+  </b>
+  <dd>
+注册一个事件，当现有的 <code>StackItem</code> 被更新时被调用。这在“捕获间隔”内发生两个更改时发生。
+  </dd>
+  <b>
+    <code>
+on('stack-item-popped', { stackItem: { meta: Map&lt;any,any&gt; }, type: 'undo'
+| 'redo' })
+    </code>
+  </b>
+  <dd>
+注册一个事件，当一个 <code>StackItem</code> 从撤销或重做栈中弹出时被调用。
+  </dd>
+  <b>
+    <code>
+on('stack-cleared', { undoStackCleared: boolean, redoStackCleared: boolean })
+    </code>
+  </b>
+  <dd>
+注册一个事件，当撤销和/或重做栈被清除时被调用。
+  </dd>
+</dl></p>
+</div>
+<div class="tabbed-block">
+<p>Yjs ships with an Undo/Redo manager for selective undo/redo of changes on a
+Yjs type. The changes can be optionally scoped to transaction origins.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">getText</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">undoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">UndoManager</span><span class="p">(</span><span class="nx">ytext</span><span class="p">)</span>
+
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39;</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">redo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;abc&#39;</span>
+</code></pre></div>
+<p><dl>
+  <b><code>constructor(scope:Y.AbstractType|Array&lt;Y.AbstractType&gt;
+  [, {captureTimeout:number,trackedOrigins:Set&lt;any&gt;,deleteFilter:function(item):boolean}])</code></b>
+  <dd>Accepts either single type as scope or an array of types.</dd>
+  <b><code>undo()</code></b>
+  <dd></dd>
+  <b><code>redo()</code></b>
+  <dd></dd>
+  <b><code>stopCapturing()</code></b>
+  <dd></dd>
+  <b>
+    <code>
+on('stack-item-added', { stackItem: { meta: Map&lt;any,any&gt; }, type: 'undo'
+| 'redo' })
+    </code>
+  </b>
+  <dd>
+Register an event that is called when a <code>StackItem</code> is added to the
+undo- or the redo-stack.
+  </dd>
+  <b>
+    <code>
+on('stack-item-updated', { stackItem: { meta: Map&lt;any,any&gt; }, type: 'undo'
+| 'redo' })
+    </code>
+  </b>
+  <dd>
+Register an event that is called when an existing <code>StackItem</code> is updated.
+This happens when two changes happen within a "captureInterval".
+  </dd>
+  <b>
+    <code>
+on('stack-item-popped', { stackItem: { meta: Map&lt;any,any&gt; }, type: 'undo'
+| 'redo' })
+    </code>
+  </b>
+  <dd>
+Register an event that is called when a <code>StackItem</code> is popped from
+the undo- or the redo-stack.
+  </dd>
+  <b>
+    <code>
+on('stack-cleared', { undoStackCleared: boolean, redoStackCleared: boolean })
+    </code>
+  </b>
+  <dd>
+Register an event that is called when the undo- and/or the redo-stack is cleared.
+  </dd>
+</dl></p>
+</div>
+</div>
+</div>
+<h3 id="_9">示例：停止捕获</h3>
+<p><strong>Example: Stop Capturing</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">中文</label><label for="__tabbed_18_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>UndoManager 会合并在小于 <code>options.captureTimeout</code> 的时间间隔内创建的撤销栈项。调用 <code>um.stopCapturing()</code> 以便下一个栈项不会被合并。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 未停止捕获</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39; (注意 &#39;ab&#39; 被删除)</span>
+<span class="c1">// 停止捕获</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">stopCapturing</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;a&#39; (注意只有 &#39;b&#39; 被删除)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>UndoManager merges Undo-StackItems if they are created within time-gap
+smaller than <code>options.captureTimeout</code>. Call <code>um.stopCapturing()</code> so that the next
+StackItem won't be merged.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// without stopCapturing</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39; (note that &#39;ab&#39; was removed)</span>
+<span class="c1">// with stopCapturing</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">stopCapturing</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;a&#39; (note that only &#39;b&#39; was removed)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="_10">示例：指定跟踪来源</h3>
+<p><strong>Example: Specify tracked origins</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">中文</label><label for="__tabbed_19_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>共享文档上的每个更改都有一个来源。如果未指定来源，则默认为 <code>null</code>。通过指定 <code>trackedOrigins</code>，您可以选择性地指定哪些更改应该被 <code>UndoManager</code> 跟踪。UndoManager 实例始终会被添加到 <code>trackedOrigins</code> 中。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">getText</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">undoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">UndoManager</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">trackedOrigins</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">([</span><span class="mf">42</span><span class="p">,</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="p">])</span>
+<span class="p">})</span>
+
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;abc&#39; (未跟踪，因为来源为 `null`，并且不属于</span>
+<span class="w">                 </span><span class="c1">//           `trackedTransactionOrigins`)</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// 撤销更改</span>
+
+<span class="nx">doc</span><span class="p">.</span><span class="nx">transact</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">42</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39; (被跟踪，因为来源是 `trackedTransactionorigins` 的一个实例)</span>
+
+<span class="nx">doc</span><span class="p">.</span><span class="nx">transact</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">41</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;abc&#39; (未被跟踪，因为 41 不是 `trackedTransactionorigins` 的一个实例)</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// 撤销更改</span>
+
+<span class="nx">doc</span><span class="p">.</span><span class="nx">transact</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="p">},</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="p">())</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39; (被跟踪，因为来源是 `CustomBinding`，并且</span>
+<span class="w">                 </span><span class="c1">//        `CustomBinding` 在 `trackedTransactionorigins` 中)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Every change on the shared document has an origin. If no origin was specified,
+it defaults to <code>null</code>. By specifying <code>trackedOrigins</code> you can
+selectively specify which changes should be tracked by <code>UndoManager</code>. The
+UndoManager instance is always added to <code>trackedOrigins</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">getText</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">undoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">UndoManager</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">trackedOrigins</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">([</span><span class="mf">42</span><span class="p">,</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="p">])</span>
+<span class="p">})</span>
+
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;abc&#39; (does not track because origin `null` and not part</span>
+<span class="w">                 </span><span class="c1">//           of `trackedTransactionOrigins`)</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// revert change</span>
+
+<span class="nx">doc</span><span class="p">.</span><span class="nx">transact</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">42</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39; (tracked because origin is an instance of `trackedTransactionorigins`)</span>
+
+<span class="nx">doc</span><span class="p">.</span><span class="nx">transact</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="p">},</span><span class="w"> </span><span class="mf">41</span><span class="p">)</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;abc&#39; (not tracked because 41 is not an instance of</span>
+<span class="w">                 </span><span class="c1">//        `trackedTransactionorigins`)</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// revert change</span>
+
+<span class="nx">doc</span><span class="p">.</span><span class="nx">transact</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">ytext</span><span class="p">.</span><span class="nx">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="p">},</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="p">())</span>
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">undo</span><span class="p">()</span>
+<span class="nx">ytext</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="w"> </span><span class="c1">// =&gt; &#39;&#39; (tracked because origin is a `CustomBinding` and</span>
+<span class="w">                 </span><span class="c1">//        `CustomBinding` is in `trackedTransactionorigins`)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="stackitems">示例：向 StackItems 添加额外信息</h3>
+<p><strong>Example: Add additional information to the StackItems</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">中文</label><label for="__tabbed_20_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>在撤销或重做之前的操作时，通常期望恢复额外的元信息，如光标位置或文档视图。您可以将元信息分配给撤销/重做栈项。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">getText</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">undoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">UndoManager</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">trackedOrigins</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">([</span><span class="mf">42</span><span class="p">,</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="p">])</span>
+<span class="p">})</span>
+
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;stack-item-added&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 将当前光标位置保存到栈项中</span>
+<span class="w">  </span><span class="nx">event</span><span class="p">.</span><span class="nx">stackItem</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;cursor-location&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">getRelativeCursorLocation</span><span class="p">())</span>
+<span class="p">})</span>
+
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;stack-item-popped&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 恢复栈项中的当前光标位置</span>
+<span class="w">  </span><span class="nx">restoreCursorLocation</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">stackItem</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;cursor-location&#39;</span><span class="p">))</span>
+<span class="p">})</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>When undoing or redoing a previous action, it is often expected to restore
+additional meta information like the cursor location or the view on the
+document. You can assign meta-information to Undo-/Redo-StackItems.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ytext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">doc</span><span class="p">.</span><span class="nx">getText</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">undoManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Y</span><span class="p">.</span><span class="nx">UndoManager</span><span class="p">(</span><span class="nx">ytext</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">trackedOrigins</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">([</span><span class="mf">42</span><span class="p">,</span><span class="w"> </span><span class="nx">CustomBinding</span><span class="p">])</span>
+<span class="p">})</span>
+
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;stack-item-added&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// save the current cursor location on the stack-item</span>
+<span class="w">  </span><span class="nx">event</span><span class="p">.</span><span class="nx">stackItem</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;cursor-location&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">getRelativeCursorLocation</span><span class="p">())</span>
+<span class="p">})</span>
+
+<span class="nx">undoManager</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;stack-item-popped&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// restore the current cursor location on the stack-item</span>
+<span class="w">  </span><span class="nx">restoreCursorLocation</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">stackItem</span><span class="p">.</span><span class="nx">meta</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;cursor-location&#39;</span><span class="p">))</span>
+<span class="p">})</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+    
+  </body>
+</html>

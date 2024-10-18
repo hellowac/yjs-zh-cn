@@ -1,0 +1,762 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个具有强大共享数据抽象的 CRDT 框架">
+      
+      
+      
+      
+      
+        <link rel="next" href="overview/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>yjs-zh-cn</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="yjs-zh-cn" class="md-header__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            yjs-zh-cn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="切换到白天模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到白天模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="yjs-zh-cn" class="md-nav__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    yjs-zh-cn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    赞助
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    专业支持
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yjs" class="md-nav__link">
+    谁在使用 Yjs
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="crdt-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs CRDT 算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="INTERNALS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs 内部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    许可证和作者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    赞助
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    专业支持
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yjs" class="md-nav__link">
+    谁在使用 Yjs
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="_1"><img alt="Yjs" src="https://yjs.dev/images/logo/yjs-120x120.png" /></h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<blockquote>
+<p>一个具有强大共享数据抽象的 CRDT 框架</p>
+</blockquote>
+<p>Yjs 是一个 <a href="#yjs-crdt-algorithm">CRDT 实现</a>，它将其内部
+数据结构暴露为 <em>共享类型</em>。共享类型是常见的数据类型，如 <code>Map</code>
+或 <code>Array</code>，具有超能力：更改会自动分发给其他
+对等方，并在没有合并冲突的情况下合并。</p>
+<p>Yjs 是 <strong>网络无关的</strong>（p2p！），支持许多现有的 <strong>富文本
+编辑器</strong>、<strong>离线编辑</strong>、<strong>版本快照</strong>、<strong>撤销/重做</strong> 和
+<strong>共享光标</strong>。它可以支持无限数量的用户，并且非常适合处理大型文档。</p>
+<ul>
+<li>演示: <a href="https://github.com/yjs/yjs-demos">https://github.com/yjs/yjs-demos</a></li>
+<li>讨论: <a href="https://discuss.yjs.dev">https://discuss.yjs.dev</a></li>
+<li>聊天: <a href="https://gitter.im/Yjs/community">Gitter</a> | <a href="https://discord.gg/T3nqMT6qbM">Discord</a></li>
+<li>基准测试 Yjs vs. Automerge:
+  <a href="https://github.com/dmonad/crdt-benchmarks">https://github.com/dmonad/crdt-benchmarks</a></li>
+<li>播客 <a href="https://www.tag1consulting.com/blog/deep-dive-real-time-collaborative-editing-solutions-tagteamtalk-001-0"><strong>“Yjs 深入探讨实时协作编辑解决方案”：</strong></a></li>
+<li>播客 <a href="https://publishpress.com/blog/yjs/"><strong>“在 Gutenberg 中使用 YJS 框架进行 Google Docs 样式编辑”：</strong></a></li>
+</ul>
+<p>:construction_worker_woman: 如果您正在寻找专业支持，请
+考虑通过 <a href="https://github.com/sponsors/dmonad">GitHub Sponsors</a> 支持该项目，签订“支持合同”。我会更快处理您的问题，
+我们可以在定期视频会议中讨论问题和疑问。
+否则，您可以在我们的社区 <a href="https://discuss.yjs.dev">讨论论坛</a> 找到帮助。</p>
+</div>
+<div class="tabbed-block">
+<blockquote>
+<p>A CRDT framework with a powerful abstraction of shared data</p>
+</blockquote>
+<p>Yjs is a <a href="#yjs-crdt-algorithm">CRDT implementation</a> that exposes its internal
+data structure as <em>shared types</em>. Shared types are common data types like <code>Map</code>
+or <code>Array</code> with superpowers: changes are automatically distributed to other
+peers and merged without merge conflicts.</p>
+<p>Yjs is <strong>network agnostic</strong> (p2p!), supports many existing <strong>rich text
+editors</strong>, <strong>offline editing</strong>, <strong>version snapshots</strong>, <strong>undo/redo</strong> and
+<strong>shared cursors</strong>. It scales well with an unlimited number of users and is well
+suited for even large documents.</p>
+<ul>
+<li>Demos: <a href="https://github.com/yjs/yjs-demos">https://github.com/yjs/yjs-demos</a></li>
+<li>Discuss: <a href="https://discuss.yjs.dev">https://discuss.yjs.dev</a></li>
+<li>Chat: <a href="https://gitter.im/Yjs/community">Gitter</a> | <a href="https://discord.gg/T3nqMT6qbM">Discord</a></li>
+<li>Benchmark Yjs vs. Automerge:
+  <a href="https://github.com/dmonad/crdt-benchmarks">https://github.com/dmonad/crdt-benchmarks</a></li>
+<li>Podcast <a href="https://www.tag1consulting.com/blog/deep-dive-real-time-collaborative-editing-solutions-tagteamtalk-001-0"><strong>"Yjs Deep Dive into real time collaborative editing solutions":</strong></a></li>
+<li>Podcast <a href="https://publishpress.com/blog/yjs/"><strong>"Google Docs-style editing in Gutenberg with the YJS framework":</strong></a></li>
+</ul>
+<p>:construction_worker_woman: If you are looking for professional support, please
+consider supporting this project via a "support contract" on
+<a href="https://github.com/sponsors/dmonad">GitHub Sponsors</a>. I will attend your issues
+quicker and we can discuss questions and problems in regular video conferences.
+Otherwise you can find help on our community <a href="https://discuss.yjs.dev">discussion board</a>.</p>
+</div>
+</div>
+</div>
+<h2 id="_2">赞助</h2>
+<p><strong>Sponsorship</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>请在财务上为项目贡献——特别是如果您的公司依赖
+Yjs。<a href="https://github.com/sponsors/dmonad"><img alt="成为赞助商" src="https://img.shields.io/static/v1?label=Become%20a%20Sponsor&amp;message=%E2%9D%A4&amp;logo=GitHub&amp;style=flat&amp;color=d42f2d" /></a></p>
+</div>
+<div class="tabbed-block">
+<p>Please contribute to the project financially - especially if your company relies</p>
+</div>
+</div>
+</div>
+<p>on Yjs. <a href="https://github.com/sponsors/dmonad"><img alt="Become a Sponsor" src="https://img.shields.io/static/v1?label=Become%20a%20Sponsor&amp;message=%E2%9D%A4&amp;logo=GitHub&amp;style=flat&amp;color=d42f2d" /></a></p>
+<h2 id="_3">专业支持</h2>
+<p><strong>Professional Support</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><a href="https://github.com/sponsors/dmonad">与维护者的支持合同</a> -
+通过对开源 Yjs 项目进行财务贡献，您可以直接从作者那里获得
+专业支持。这包括每周视频通话的机会，以讨论您的具体挑战。</li>
+<li><a href="https://synergycodes.com/yjs-services/">Synergy Codes</a> - 专注于
+为视觉应用开发实时协作编辑解决方案，Synergy Codes 专注于
+互动图表、复杂图形、图表和各种数据可视化类型。他们的专业知识使开发人员能够构建
+引人入胜和互动的视觉体验，利用 Yjs 的强大功能。请查看
+他们在 <a href="https://yjs-diagram.synergy.codes/">视觉协作展示</a> 中的工作。</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><a href="https://github.com/sponsors/dmonad">Support Contract with the Maintainer</a> -
+By contributing financially to the open-source Yjs project, you can receive
+professional support directly from the author. This includes the opportunity for
+weekly video calls to discuss your specific challenges.</li>
+<li><a href="https://synergycodes.com/yjs-services/">Synergy Codes</a> - Specializing in
+consulting and developing real-time collaborative editing solutions for visual
+apps, Synergy Codes focuses on interactive diagrams, complex graphs, charts, and
+various data visualization types. Their expertise empowers developers to build
+engaging and interactive visual experiences leveraging the power of Yjs. See
+their work in action at <a href="https://yjs-diagram.synergy.codes/">Visual Collaboration
+Showcase</a>.</li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="yjs">谁在使用 Yjs</h2>
+<p><strong>Who is using Yjs</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><a href="https://affine.pro/">AFFiNE</a> 本地优先、隐私优先的开源知识库。 :star2:</li>
+<li><a href="https://huly.io/">Huly</a> - 开源的一体化项目管理平台 :star2:</li>
+<li><a href="https://cargo.site/">Cargo</a> 设计师和艺术家的网站构建工具 :star2:</li>
+<li><a href="https://gitbook.com">Gitbook</a> 技术团队的知识管理 :star2:</li>
+<li><a href="https://evernote.com">Evernote</a> 笔记应用 :star2:</li>
+<li><a href="https://thelessonspace.com">Lessonspace</a> 企业级虚拟教室和在线培训平台 :star2:</li>
+<li><a href="ellipsus.com">Ellipsus</a> - 讲故事等的协作写作应用。支持版本控制、变更归属和“责任归属”。为整个出版过程（包括销售）提供解决方案 :star:</li>
+<li><a href="https://dynaboard.com/">Dynaboard</a> 协作构建 Web 应用。 :star:</li>
+<li><a href="https://www.relm.us/">Relm</a> 一个协作游戏世界，用于团队合作和社区。 :star:</li>
+<li><a href="https://room.sh/">Room.sh</a> 一款会议应用，集成协作绘图、编辑和编码工具。 :star:</li>
+<li><a href="https://nimbusweb.me/note.php">Nimbus Note</a> 由 Nimbus Web 设计的笔记应用。 :star:</li>
+<li><a href="https://getradiomanager.com/">Pluxbox RadioManager</a> 一款基于 Web 的应用，用于协作组织广播。 :star:</li>
+<li><a href="https://www.modyfi.com">modyfi</a> - Modyfi 是为多学科设计师构建的设计平台。设计、生成、动画等——无需在应用之间切换。 :star:</li>
+<li><a href="https://sanalabs.com/">Sana</a> 具有 Yjs 支持的协作文本编辑的学习平台。</li>
+<li><a href="https://www.serenity.re/en/notes">Serenity Notes</a> 端到端加密的协作笔记应用。</li>
+<li><a href="https://prsm.uk/">PRSM</a> 协作思维导图和系统可视化。 <em><a href="https://github.com/micrology/prsm">(来源)</a></em></li>
+<li><a href="https://alldone.app/">Alldone</a> 下一代项目管理和协作平台。</li>
+<li><a href="https://livingspec.com/">Living Spec</a> 产品团队协作的现代方式。</li>
+<li><a href="https://slidebeamer.com/">Slidebeamer</a> 演示应用。</li>
+<li><a href="https://blocksurvey.io">BlockSurvey</a> 端到端加密的表单/调查工具。</li>
+<li><a href="https://skiff.org/">Skiff</a> 私人去中心化工作空间。</li>
+<li><a href="https://jupyter.org/">JupyterLab</a> 协作计算笔记本。</li>
+<li><a href="https://jupytercad.readthedocs.io/en/latest/">JupyterCad</a> JupyterLab 的扩展，支持 3D FreeCAD 模型的协作编辑。</li>
+<li><a href="https://hyperquery.ai/">Hyperquery</a> 用于共享分析、文档、电子表格和仪表板的协作数据工作空间。</li>
+<li><a href="https://nosgestesclimat.fr/groupe">Nosgestesclimat</a> 法国碳足迹计算器具有基于 Yjs 的小组 P2P 模式。</li>
+<li><a href="https://oorja.io">oorja.io</a> 可扩展协作应用的在线会议空间，端到端加密。</li>
+<li><a href="https://legendkeeper.com">LegendKeeper</a> 协作的活动策划和世界构建应用，适用于桌面 RPG。</li>
+<li><a href="https://illumidesk.com/">IllumiDesk</a> 使用 AI 构建课程和内容。</li>
+<li><a href="https://www.btw.so">btw</a> 开源 Medium 替代品。</li>
+<li><a href="https://aws.amazon.com/sagemaker/">AWS SageMaker</a> 构建机器学习模型的工具。</li>
+<li><a href="https://linear.app">linear</a> 精简问题、项目和产品路线图。</li>
+<li><a href="https://www.btw.so">btw</a> - 个人网站构建器。</li>
+<li><a href="https://aws.amazon.com/sagemaker/">AWS SageMaker</a> - 机器学习服务。</li>
+<li><a href="https://www.arkiter.com/">Arkiter</a> - 实时面试软件。</li>
+<li><a href="https://www.appflowy.io/">Appflowy</a> - 他们使用 Yrs。</li>
+<li><a href="https://multi.app">Multi.app</a> - 多人应用共享：在共享应用中指点、绘制和编辑，就像它们在您的计算机上一样。它们正在使用 Yrs。</li>
+<li><a href="https://appmaster.io">AppMaster</a> 无代码平台，用于创建可生产的应用程序并生成源代码。</li>
+<li><a href="https://www.synthesia.io">Synthesia</a> - 协作视频编辑器。</li>
+<li><a href="https://thinkdeli.com">thinkdeli</a> - 一款由 AI 驱动的快速简单笔记应用。</li>
+<li><a href="https://github.com/raimohanska/ourboard">ourboard</a> - 一款协作白板应用。</li>
+<li><a href="https://ellie.ai">Ellie.ai</a> - 数据产品设计与协作。</li>
+<li><a href="https://gopeer.org/">GoPeer</a> - 协作辅导。</li>
+<li><a href="https://screen.garden">screen.garden</a> - PKM 应用的协作后端。</li>
+<li><a href="https://nextcloud.com/">NextCloud</a> - 内容协作平台。</li>
+<li><a href="https://github.com/Thinkmill/keystatic">keystatic</a> - 基于 git 的 CMS。</li>
+<li><a href="https://qdacity.com">QDAcity</a> - 协作定性数据分析平台。</li>
+<li><a href="https://kanbert.com">Kanbert</a> - 项目管理软件。</li>
+<li><a href="https://github.com/eclipse-theia/theia">Eclipse Theia</a> - 一款在浏览器中运行的云端和桌面 IDE。</li>
+<li><a href="https://scienhub.com">ScienHub</a> - 浏览器中的协作 LaTeX 编辑器。</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><a href="https://affine.pro/">AFFiNE</a> A local-first, privacy-first, open source
+  knowledge base. :star2:</li>
+<li><a href="https://huly.io/">Huly</a> - Open Source All-in-One Project Management Platform :star2:</li>
+<li><a href="https://cargo.site/">Cargo</a> Site builder for designers and artists :star2:</li>
+<li><a href="https://gitbook.com">Gitbook</a> Knowledge management for technical teams :star2:</li>
+<li><a href="https://evernote.com">Evernote</a> Note-taking app :star2:</li>
+<li><a href="https://thelessonspace.com">Lessonspace</a> Enterprise platform for virtual
+  classrooms and online training :star2:</li>
+<li><a href="ellipsus.com">Ellipsus</a> - Collaborative writing app for storytelling etc.
+  Supports versioning, change attribution, and "blame". A solution for the whole
+  publishing process (also selling) :star:</li>
+<li><a href="https://dynaboard.com/">Dynaboard</a> Build web apps collaboratively. :star:</li>
+<li><a href="https://www.relm.us/">Relm</a> A collaborative gameworld for teamwork and
+  community. :star:</li>
+<li><a href="https://room.sh/">Room.sh</a> A meeting application with integrated
+  collaborative drawing, editing, and coding tools. :star:</li>
+<li><a href="https://nimbusweb.me/note.php">Nimbus Note</a> A note-taking app designed by
+  Nimbus Web. :star:</li>
+<li><a href="https://getradiomanager.com/">Pluxbox RadioManager</a> A web-based app to
+  collaboratively organize radio broadcasts. :star:</li>
+<li><a href="https://www.modyfi.com">modyfi</a> - Modyfi is the design platform built for
+  multidisciplinary designers. Design, generate, animate, and more — without
+  switching between apps. :star:</li>
+<li><a href="https://sanalabs.com/">Sana</a> A learning platform with collaborative text
+  editing powered by Yjs.</li>
+<li><a href="https://www.serenity.re/en/notes">Serenity Notes</a> End-to-end encrypted
+  collaborative notes app.</li>
+<li><a href="https://prsm.uk/">PRSM</a> Collaborative mind-mapping and system visualisation.
+  <em><a href="https://github.com/micrology/prsm">(source)</a></em></li>
+<li><a href="https://alldone.app/">Alldone</a> A next-gen project management and
+  collaboration platform.</li>
+<li><a href="https://livingspec.com/">Living Spec</a> A modern way for product teams to collaborate.</li>
+<li><a href="https://slidebeamer.com/">Slidebeamer</a> Presentation app.</li>
+<li><a href="https://blocksurvey.io">BlockSurvey</a> End-to-end encryption for your forms/surveys.</li>
+<li><a href="https://skiff.org/">Skiff</a> Private, decentralized workspace.</li>
+<li><a href="https://jupyter.org/">JupyterLab</a> Collaborative computational Notebooks</li>
+<li><a href="https://jupytercad.readthedocs.io/en/latest/">JupyterCad</a> Extension to
+  JupyterLab that enables collaborative editing of 3d FreeCAD Models.</li>
+<li><a href="https://hyperquery.ai/">Hyperquery</a> A collaborative data workspace for
+  sharing analyses, documentation, spreadsheets, and dashboards.</li>
+<li><a href="https://nosgestesclimat.fr/groupe">Nosgestesclimat</a> The french carbon
+  footprint calculator has a group P2P mode based on yjs</li>
+<li><a href="https://oorja.io">oorja.io</a> Online meeting spaces extensible with
+  collaborative apps, end-to-end encrypted.</li>
+<li><a href="https://legendkeeper.com">LegendKeeper</a> Collaborative campaign planner and
+  worldbuilding app for tabletop RPGs.</li>
+<li><a href="https://illumidesk.com/">IllumiDesk</a> Build courses and content with A.I.</li>
+<li><a href="https://www.btw.so">btw</a> Open-source Medium alternative</li>
+<li><a href="https://aws.amazon.com/sagemaker/">AWS SageMaker</a> Tools for building Machine
+  Learning Models</li>
+<li><a href="https://linear.app">linear</a> Streamline issues, projects, and product roadmaps.</li>
+<li><a href="https://www.btw.so">btw</a> - Personal website builder</li>
+<li><a href="https://aws.amazon.com/sagemaker/">AWS SageMaker</a> - Machine Learning Service</li>
+<li><a href="https://www.arkiter.com/">Arkiter</a> - Live interview software</li>
+<li><a href="https://www.appflowy.io/">Appflowy</a> - They use Yrs</li>
+<li><a href="https://multi.app">Multi.app</a> - Multiplayer app sharing: Point, draw and edit
+  in shared apps as if they're on your computer. They are using Yrs.</li>
+<li><a href="https://appmaster.io">AppMaster</a> A No-Code platform for creating
+  production-ready applications with source code generation.</li>
+<li><a href="https://www.synthesia.io">Synthesia</a> - Collaborative Video Editor</li>
+<li><a href="https://thinkdeli.com">thinkdeli</a> - A fast and simple notes app powered by AI</li>
+<li><a href="https://github.com/raimohanska/ourboard">ourboard</a> - A collaborative whiteboard
+  applicaiton</li>
+<li><a href="https://ellie.ai">Ellie.ai</a> - Data Product Design and Collaboration</li>
+<li><a href="https://gopeer.org/">GoPeer</a> - Collaborative tutoring</li>
+<li><a href="https://screen.garden">screen.garden</a> - Collaborative backend for PKM apps.</li>
+<li><a href="https://nextcloud.com/">NextCloud</a> - Content Collaboration Platform</li>
+<li><a href="https://github.com/Thinkmill/keystatic">keystatic</a> - git-based CMS</li>
+<li><a href="https://qdacity.com">QDAcity</a> - Collaborative qualitative data analysis platform</li>
+<li><a href="https://kanbert.com">Kanbert</a> - Project management software</li>
+<li><a href="https://github.com/eclipse-theia/theia">Eclipse Theia</a> - A cloud &amp; desktop
+  IDE that runs in the browser.</li>
+<li><a href="https://scienhub.com">ScienHub</a> - Collaborative LaTeX editor in the browser.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.94c44541.min.js"></script>
+      
+    
+  </body>
+</html>

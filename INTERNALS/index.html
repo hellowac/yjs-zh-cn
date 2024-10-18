@@ -1,0 +1,851 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个具有强大共享数据抽象的 CRDT 框架">
+      
+      
+      
+      
+        <link rel="prev" href="../crdt-algorithm/">
+      
+      
+        <link rel="next" href="../license/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>Yjs 内部 - yjs-zh-cn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#yjs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="yjs-zh-cn" class="md-header__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            yjs-zh-cn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Yjs 内部
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="切换到白天模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到白天模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="yjs-zh-cn" class="md-nav__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    yjs-zh-cn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crdt-algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs CRDT 算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Yjs 内部
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Yjs 内部
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    列表项
+  </a>
+  
+    <nav class="md-nav" aria-label="列表项">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    项存储
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    删除
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    事务
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    网络协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    快照
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    许可证和作者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    列表项
+  </a>
+  
+    <nav class="md-nav" aria-label="列表项">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    项存储
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    删除
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    事务
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    网络协议
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    快照
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="yjs">Yjs 内部</h1>
+<p><strong>Yjs Internals</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>本文大致解释了 Yjs 的内部工作原理。可以查看 Yjs 代码库的完整演示录制： <a href="https://youtu.be/0l5XgnQ6rB4">https://youtu.be/0l5XgnQ6rB4</a></p>
+<p>Yjs CRDT 算法在 2016 年的 <a href="https://www.researchgate.net/publication/310212186_Near_Real-Time_Peer-to-Peer_Shared_Editing_on_Extensible_Data_Types">YATA 论文</a> 中有详细描述。要了解其工作原理，从论文开始是个不错的选择。Yjs 实现了一些小的改进，论文中没有描述。其中最显著的是，项目具有 <code>originRight</code> 和 <code>origin</code> 属性，这在多个并发插入发生在同一个字符之后时提高了性能。</p>
+<p>Yjs 的核心是一个列表 CRDT。一切都被压缩成一个列表，以便重用 CRDT 解析算法：</p>
+<ul>
+<li>数组很简单——它们是任意项目的列表。</li>
+<li>文本是字符的列表，可选地由格式标记和嵌入物进行标注，以支持富文本。多个字符可以包裹在一个单一的链接列表 <code>Item</code> 中（这也被称为 CRDT 的复合表示）。有关更多信息，请参见 <a href="https://blog.kevinjahns.de/are-crdts-suitable-for-shared-editing/">这篇博客文章</a>。</li>
+<li>映射是条目的列表。每个键的最后插入条目会被使用，而所有其他重复条目则标记为已删除。</li>
+</ul>
+<p>每个客户端在首次插入时会被分配一个唯一的 <em>clientID</em> 属性。这是一个随机的 53 位整数（53 位因为它适合 JavaScript 的安全整数范围 [JavaScript 使用 IEEE 754 浮点数]）。</p>
+</div>
+<div class="tabbed-block">
+<p>This document roughly explains how Yjs works internally. There is a complete
+walkthrough of the Yjs codebase available as a recording:
+https://youtu.be/0l5XgnQ6rB4</p>
+<p>The Yjs CRDT algorithm is described in the <a href="https://www.researchgate.net/publication/310212186_Near_Real-Time_Peer-to-Peer_Shared_Editing_on_Extensible_Data_Types">YATA
+paper</a>
+from 2016. For an algorithmic view of how it works, the paper is a reasonable
+place to start. There are a handful of small improvements implemented in Yjs
+which aren't described in the paper. The most notable is that items have an
+<code>originRight</code> as well as an <code>origin</code> property, which improves performance when
+many concurrent inserts happen after the same character.</p>
+<p>At its heart, Yjs is a list CRDT. Everything is squeezed into a list in order to
+reuse the CRDT resolution algorithm:</p>
+<ul>
+<li>Arrays are easy - they're lists of arbitrary items.</li>
+<li>Text is a list of characters, optionally punctuated by formatting markers and
+  embeds for rich text support. Several characters can be wrapped in a single
+linked list <code>Item</code> (this is also known as the compound representation of
+CRDTs). More information about this in <a href="https://blog.kevinjahns.de/are-crdts-suitable-for-shared-editing/">this blog
+article</a>.</li>
+<li>Maps are lists of entries. The last inserted entry for each key is used, and
+  all other duplicates for each key are flagged as deleted.</li>
+</ul>
+<p>Each client is assigned a unique <em>clientID</em> property on first insert. This is a
+random 53-bit integer (53 bits because that fits in the javascript safe integer
+range [JavaScript uses IEEE 754 floats]).</p>
+</div>
+</div>
+</div>
+<h2 id="_1">列表项</h2>
+<p><strong>List items</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Yjs 列表中的每个项由两个对象组成：</p>
+<ul>
+<li>一个 <code>Item</code> (<em>src/structs/Item.js</em>)。用于将该项与其他相邻项关联。</li>
+<li>一个在 <code>AbstractType</code> 层次结构中的对象（<em>src/types/AbstractType.js</em> 的子类，例如 <code>YText</code>）。此对象存储 Yjs 文档中的实际内容。</li>
+</ul>
+<p>项和类型对象对具有一一映射关系。项的 <code>content</code> 字段引用 AbstractType 对象，而 AbstractType 对象的 <code>_item</code> 字段引用该项。</p>
+<p>插入到 Yjs 文档中的每个项目都会被赋予一个唯一 ID，由 <em>ID(clientID, clock)</em> 对（也称为 <a href="https://en.wikipedia.org/wiki/Lamport_timestamp">Lamport 时间戳</a>）组成。时钟从 0 开始计数，随着客户端插入的第一个字符或项目而增加。这与 automerge 的操作 ID 相似，但请注意，时钟仅在插入时递增。删除操作以非常不同的方式处理（见下文）。</p>
+<p>如果一串字符被插入到文档中（例如 <code>"abc"</code>），时钟将为每个字符递增（例如这里递增 3 次）。但 Yjs 只会将一个单一的 <code>Item</code> 添加到列表中。这对核心 CRDT 算法没有影响，但这种优化显著减少了正常文本编辑过程中创建的 JavaScript 对象数量。此优化仅适用于字符共享同一 clientID、按顺序插入且所有字符要么已被删除，要么均未删除。如果运行被中断（例如运行中的一个字符被删除），该项将被拆分。</p>
+<p>当创建一个项时，它会存储对前一个和后一个项的 ID 的引用。这些引用分别存储在项的 <code>origin</code> 和 <code>originRight</code> 字段中。当对等体在文档的同一位置同时插入时，这些引用会被使用。尽管在实践中这种情况相当罕见，Yjs 需要确保列表项在所有对等体上始终按相同顺序解析。实际逻辑相对简单——只有几十行代码，位于 <code>Item#integrate()</code> 方法中。YATA 论文对此算法有更多详细信息。</p>
+</div>
+<div class="tabbed-block">
+<p>Each item in a Yjs list is made up of two objects:</p>
+<ul>
+<li>An <code>Item</code> (<em>src/structs/Item.js</em>). This is used to relate the item to other
+  adjacent items.</li>
+<li>An object in the <code>AbstractType</code> hierarchy (subclasses of
+  <em>src/types/AbstractType.js</em> - eg <code>YText</code>). This stores the actual content in
+the Yjs document.</li>
+</ul>
+<p>The item and type object pair have a 1-1 mapping. The item's <code>content</code> field
+references the AbstractType object and the AbstractType object's <code>_item</code> field
+references the item.</p>
+<p>Everything inserted in a Yjs document is given a unique ID, formed from a
+<em>ID(clientID, clock)</em> pair (also known as a <a href="https://en.wikipedia.org/wiki/Lamport_timestamp">Lamport
+Timestamp</a>). The clock counts
+up from 0 with the first inserted character or item a client makes. This is
+similar to automerge's operation IDs, but note that the clock is only
+incremented by inserts. Deletes are handled in a very different way (see
+below).</p>
+<p>If a run of characters is inserted into a document (eg <code>"abc"</code>), the clock will
+be incremented for each character (eg 3 times here). But Yjs will only add a
+single <code>Item</code> into the list. This has no effect on the core CRDT algorithm, but
+the optimization dramatically decreases the number of javascript objects
+created during normal text editing. This optimization only applies if the
+characters share the same clientID, they're inserted in order, and all
+characters have either been deleted or all characters are not deleted. The item
+will be split if the run is interrupted for any reason (eg a character in the
+middle of the run is deleted).</p>
+<p>When an item is created, it stores a reference to the IDs of the preceeding and
+succeeding item. These are stored in the item's <code>origin</code> and <code>originRight</code>
+fields, respectively. These are used when peers concurrently insert at the same
+location in a document. Though quite rare in practice, Yjs needs to make sure
+the list items always resolve to the same order on all peers. The actual logic
+is relatively simple - its only a couple dozen lines of code and it lives in
+the <code>Item#integrate()</code> method. The YATA paper has much more detail on this
+algorithm.</p>
+</div>
+</div>
+</div>
+<h3 id="_2">项存储</h3>
+<p><strong>Item Storage</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">中文</label><label for="__tabbed_3_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>项本身存储在两个数据结构和一个缓存中：</p>
+<ul>
+<li>项以<em>文档顺序</em>存储在双向链表树中。每个项都有 <code>left</code> 和 <code>right</code> 属性，链接到文档中的兄弟项。项还有一个 <code>parent</code> 属性，引用其在文档树中的父项（根节点为 null）。(如果有的话，您可以通过 <code>item.content</code> 访问项的子项)。</li>
+<li>所有项在结构存储 (<em>src/utils/StructStore.js</em>) 中以<em>插入顺序</em>引用。它引用按时间顺序插入的每个客户端的项列表。这用于在树中查找具有给定 ID 的项（使用二分查找）。它还用于在同步期间有效收集对等体缺失的操作（下文将详细说明）。</li>
+</ul>
+<p>当发生本地插入时，Yjs 需要将文档中的插入位置（例如位置 1000）映射到一个 ID。仅使用链表，这将需要 O(n) 的线性扫描，速度较慢。但在编辑文档时，大多数插入要么在与上一个插入相同的位置，要么在附近。为了提高性能，Yjs 在文档中存储最近查找的 80 个插入位置的缓存。在查找位置时会咨询和更新该缓存，以改善平均情况的性能。缓存的更新使用一个仍在变化的启发式方法（目前，当新位置显著偏离缓存中的现有标记时进行更新）。在内部，这被称为跳跃列表/快速搜索标记。</p>
+</div>
+<div class="tabbed-block">
+<p>The items themselves are stored in two data structures and a cache:</p>
+<ul>
+<li>The items are stored in a tree of doubly-linked lists in <em>document order</em>.
+  Each item has <code>left</code> and <code>right</code> properties linking to its siblings in the
+document. Items also have a <code>parent</code> property to reference their parent in the
+document tree (null at the root). (And you can access an item's children, if
+any, through <code>item.content</code>).</li>
+<li>All items are referenced in <em>insertion order</em> inside the struct store
+  (<em>src/utils/StructStore.js</em>). This references the list of items inserted by
+for each client, in chronological order. This is used to find an item in the
+tree with a given ID (using a binary search). It is also used to efficiently
+gather the operations a peer is missing during sync (more on this below).</li>
+</ul>
+<p>When a local insert happens, Yjs needs to map the insert position in the
+document (eg position 1000) to an ID. With just the linked list, this would
+require a slow O(n) linear scan of the list. But when editing a document, most
+inserts are either at the same position as the last insert, or nearby. To
+improve performance, Yjs stores a cache of the 80 most recently looked up
+insert positions in the document. This is consulted and updated when a position
+is looked up to improve performance in the average case. The cache is updated
+using a heuristic that is still changing (currently, it is updated when a new
+position significantly diverges from existing markers in the cache). Internally
+this is referred to as the skip list / fast search marker.</p>
+</div>
+</div>
+</div>
+<h3 id="_3">删除</h3>
+<p><strong>Deletions</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">中文</label><label for="__tabbed_4_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>在 Yjs 中，删除操作的处理方式与插入操作截然不同。插入被实现为基于顺序操作的 CRDT，而删除则被视为一种更简单的基于状态的 CRDT。</p>
+<p>当任何对等体在历史的任何时刻删除一项时，该项在 Yjs 中被标记为已删除。（内部 Yjs 使用 <code>info</code> 位字段。）Yjs 不记录关于删除的元数据：</p>
+<ul>
+<li>不保留关于<em>何时</em>删除项的信息，也不记录哪个用户删除了它。</li>
+<li>结构存储中不包含删除记录。</li>
+<li>clientID 的时钟不被递增。</li>
+</ul>
+<p>如果在 Yjs 中启用垃圾回收，当对象被删除时，其内容将被丢弃。如果被删除的对象包含子项（例如在对象中删除字段），其内容将被替换为 <code>GC</code> 对象 (<em>src/structs/GC.js</em>)。这是一种非常轻量级的结构——它仅存储被移除内容的长度。</p>
+<p>Yjs 具有一些特殊逻辑来共享文档中哪些内容已被删除：</p>
+<ul>
+<li>当发生删除时，除了标记该项外，被删除的 ID 会在事务内本地列出。（有关事务的更多信息，请参见下文。）当事务在本地提交后，被删除项的集合会附加到事务的更新消息中。</li>
+<li>快照（Yjs 历史中的一个标记时间点）通过一组 (clientID, clock) 对以及所有已删除项 ID 的集合来指定。被删除的集合是 O(n)，但因为删除通常发生在连续操作中，这个数据集在实际中通常很小。（来自 B4 基准文档的真实编辑轨迹包含 182k 次插入和 77k 个已删除字符。快照中的删除集合大小仅为 4.5Kb。）</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>Deletions in Yjs are treated very differently from insertions. Insertions are
+implemented as a sequential operation based CRDT, but deletions are treated as
+a simpler state based CRDT.</p>
+<p>When an item has been deleted by any peer, at any point in history, it is
+flagged as deleted on the item. (Internally Yjs uses the <code>info</code> bitfield.) Yjs
+does not record metadata about a deletion:</p>
+<ul>
+<li>No data is kept on <em>when</em> an item was deleted, or which user deleted it.</li>
+<li>The struct store does not contain deletion records</li>
+<li>The clientID's clock is not incremented</li>
+</ul>
+<p>If garbage collection is enabled in Yjs, when an object is deleted its content
+is discarded. If a deleted object contains children (eg a field is deleted in
+an object), the content is replaced with a <code>GC</code> object (<em>src/structs/GC.js</em>).
+This is a very lightweight structure - it only stores the length of the removed
+content.</p>
+<p>Yjs has some special logic to share which content in a document has been
+deleted:</p>
+<ul>
+<li>When a delete happens, as well as marking the item, the deleted IDs are
+  listed locally within the transaction. (See below for more information about
+transactions.) When a transaction has been committed locally, the set of
+deleted items is appended to a transaction's update message.</li>
+<li>A snapshot (a marked point in time in the Yjs history) is specified using
+  both the set of (clientID, clock) pairs <em>and</em> the set of all deleted item
+IDs. The deleted set is O(n), but because deletions usually happen in runs,
+this data set is usually tiny in practice. (The real world editing trace from
+the B4 benchmark document contains 182k inserts and 77k deleted characters. The
+deleted set size in a snapshot is only 4.5Kb).</li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="_4">事务</h2>
+<p><strong>Transactions</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">中文</label><label for="__tabbed_5_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>在 Yjs 中，所有更新都发生在一个<em>事务</em>中。（在 <em>src/utils/Transaction.js</em> 中定义。）</p>
+<p>该事务收集一组对 Yjs 文档的更新，以原子方式应用于远程对等体。一旦事务在本地提交，它会生成一个压缩的<em>更新消息</em>，该消息会广播给已同步的远程对等体，以通知他们本地的变化。更新消息包含：</p>
+<ul>
+<li>新插入项的集合</li>
+<li>在事务中删除的项的集合</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>All updates in Yjs happen within a <em>transaction</em>. (Defined in
+<em>src/utils/Transaction.js</em>.)</p>
+<p>The transaction collects a set of updates to the Yjs document to be applied on
+remote peers atomically. Once a transaction has been committed locally, it
+generates a compressed <em>update message</em> which is broadcast to synchronized
+remote peers to notify them of the local change. The update message contains:</p>
+<ul>
+<li>The set of newly inserted items</li>
+<li>The set of items deleted within the transaction.</li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="_5">网络协议</h2>
+<p><strong>Network protocol</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">中文</label><label for="__tabbed_6_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>网络协议实际上并不是 Yjs 的一部分。有几个相关概念可以用来创建自定义网络协议：</p>
+<ul>
+<li><code>update</code>：Yjs 文档可以编码为一个<em>更新</em>对象，该对象可以解析以重建文档。此外，文档上的每个更改都会触发增量文档更新，允许客户端相互同步。更新对象是一个 Uint8Array，有效地编码 <code>Item</code> 对象和删除集合。</li>
+<li><code>state vector</code>：状态向量定义了每个用户的已知状态（一个元组集合 <code>(client, clock)</code>）。该对象也有效地编码为 Uint8Array。</li>
+</ul>
+<p>客户端可以通过发送其状态向量（通常称为<em>同步步骤 1</em>）向远程客户端请求缺失的文档更新。远程对等体可以使用各自客户端的 <code>clocks</code> 计算缺失的 <code>Item</code> 对象，并计算出一个最小的更新消息，以反映所有缺失的更新（同步步骤 2）。</p>
+<p>同步过程的实现位于 <a href="https://github.com/yjs/y-protocols">y-protocols</a> 中。</p>
+</div>
+<div class="tabbed-block">
+<p>The network protocol is not really a part of Yjs. There are a few relevant
+concepts that can be used to create a custom network protocol:</p>
+<ul>
+<li><code>update</code>: The Yjs document can be encoded to an <em>update</em> object that can be
+  parsed to reconstruct the document. Also every change on the document fires
+an incremental document update that allows clients to sync with each other.
+The update object is a Uint8Array that efficiently encodes <code>Item</code> objects and
+the delete set.</li>
+<li><code>state vector</code>: A state vector defines the known state of each user (a set of
+  tuples <code>(client, clock)</code>). This object is also efficiently encoded as a
+Uint8Array.</li>
+</ul>
+<p>The client can ask a remote client for missing document updates by sending
+their state vector (often referred to as <em>sync step 1</em>). The remote peer can
+compute the missing <code>Item</code> objects using the <code>clocks</code> of the respective clients
+and compute a minimal update message that reflects all missing updates (sync
+step 2).</p>
+<p>An implementation of the syncing process is in
+<a href="https://github.com/yjs/y-protocols">y-protocols</a>.</p>
+</div>
+</div>
+</div>
+<h2 id="_6">快照</h2>
+<p><strong>Snapshots</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">中文</label><label for="__tabbed_7_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>快照可以用来恢复旧的文档状态。它是一个 <code>state vector</code> + <code>delete set</code>。客户端可以通过遍历序列 CRDT，忽略所有 <code>id.clock &gt; stateVector[id.client].clock</code> 的 Items 来恢复旧的文档状态。客户端将使用删除集合来判断一个项目是否被删除，而不是使用 <code>item.deleted</code>。</p>
+<p>虽然使用快照恢复旧的文档状态是可能的，但并不推荐这样做。相反，旧状态应该通过遍历最新状态并使用状态向量中的附加信息来计算。</p>
+</div>
+<div class="tabbed-block">
+<p>A snapshot can be used to restore an old document state. It is a <code>state vector</code>
++ <code>delete set</code>. A client can restore an old document state by iterating through
+the sequence CRDT and ignoring all Items that have an <code>id.clock &gt;
+stateVector[id.client].clock</code>. Instead of using <code>item.deleted</code> the client will
+use the delete set to find out if an item was deleted or not.</p>
+<p>It is not recommended to restore an old document state using snapshots,
+although that would certainly be possible. Instead, the old state should be
+computed by iterating through the newest state and using the additional
+information from the state vector.</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+    
+  </body>
+</html>

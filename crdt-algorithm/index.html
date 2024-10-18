@@ -1,0 +1,587 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个具有强大共享数据抽象的 CRDT 框架">
+      
+      
+      
+      
+        <link rel="prev" href="../api/">
+      
+      
+        <link rel="next" href="../INTERNALS/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+    
+    
+      
+        <title>Yjs CRDT 算法 - yjs-zh-cn</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#yjs-crdt" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="yjs-zh-cn" class="md-header__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            yjs-zh-cn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Yjs CRDT 算法
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="red"  aria-label="切换到夜间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到夜间模式" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="black"  aria-label="切换到白天模式"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换到白天模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="yjs-zh-cn" class="md-nav__button md-logo" aria-label="yjs-zh-cn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    yjs-zh-cn
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/yjs-zh-cn" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Yjs CRDT 算法
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Yjs CRDT 算法
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    状态向量
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTERNALS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Yjs 内部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    许可证和作者
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    状态向量
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="yjs-crdt">Yjs CRDT 算法</h1>
+<p><strong>Yjs CRDT Algorithm</strong></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">中文</label><label for="__tabbed_1_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><em>无冲突复制数据类型</em>（CRDT）用于协作编辑，是<em>操作变换</em>（OT）的替代方法。两者的简单区分在于，OT 尝试转换索引位置以确保收敛（所有客户端最终拥有相同内容），而 CRDT 则使用通常不涉及索引转换的数学模型，例如链表。OT 目前是文本共享编辑的事实标准。支持无中央真实来源（中央服务器）的共享编辑的 OT 方法在实际操作中需要过多的记录管理，因而不太可行。CRDT 更适合分布式系统，提供了额外的保证，确保文档可以与远程客户端同步，并且不需要中央真实来源。</p>
+<p>Yjs 实现了该算法的修改版，详细信息可参考 <a href="https://www.researchgate.net/publication/310212186_Near_Real-Time_Peer-to-Peer_Shared_Editing_on_Extensible_Data_Types">这篇论文</a>。这篇 <a href="https://blog.kevinjahns.de/are-crdts-suitable-for-shared-editing/">文章</a> 解释了 CRDT 模型的简单优化，并提供了有关 Yjs 性能特征的更多见解。关于具体实现的更多信息，请参见 <a href="../INTERNALS/">INTERNALS.md</a> 和 <a href="https://youtu.be/0l5XgnQ6rB4">Yjs 代码库的此指南</a>。</p>
+<p>适合共享文本编辑的 CRDT 存在只能不断增长的缺陷。虽然存在不增长的 CRDT，但它们不具备对共享文本编辑有利的特性（如意图保留）。Yjs 实现了许多对原始算法的改进，减轻了文档仅增长的缺陷。我们无法在确保结构唯一顺序的同时回收已删除的结构（墓碑）。但我们可以 1. 将前面的结构合并为单个结构，以减少元信息的数量，2. 如果内容被删除，则可以从结构中删除内容，3. 如果我们不再关心结构的顺序，则可以回收墓碑（例如，如果父级被删除）。</p>
+<p><strong>示例：</strong></p>
+<ol>
+<li>如果用户按顺序插入元素，则结构将合并为一个单一结构。例如 <code>text.insert(0, 'a'), text.insert(1, 'b');</code> 首先表示为两个结构 (<code>[{id: {client, clock: 0}, content: 'a'}, {id: {client, clock: 1}, content: 'b'}]</code>)，然后合并为一个结构：<code>[{id: {client, clock: 0}, content: 'ab'}]</code>。</li>
+<li>当包含内容的结构（例如 <code>ItemString</code>）被删除时，该结构将被替换为不再包含内容的 <code>ItemDeleted</code>。</li>
+<li>当类型被删除时，所有子元素都会转换为 <code>GC</code> 结构。<code>GC</code> 结构仅表示结构的存在及其被删除。<code>GC</code> 结构可以与其他 <code>GC</code> 结构合并，只要它们的 id 相邻。</li>
+</ol>
+<p>特别是在处理结构化内容时（例如在 ProseMirror 上进行共享编辑），这些改进在 <a href="https://github.com/dmonad/crdt-benchmarks">基准测试</a> 随机文档编辑时表现出良好的结果。在实践中，它们显示出更好的效果，因为用户通常按顺序编辑文本，从而生成可以轻松合并的结构。基准测试表明，即使在用户从右到左编辑文本的最坏情况下，Yjs 对于大型文档也能保持良好的性能。</p>
+</div>
+<div class="tabbed-block">
+<p><em>Conflict-free replicated data types</em> (CRDT) for collaborative editing are an
+alternative approach to <em>operational transformation</em> (OT). A very simple
+differentiation between the two approaches is that OT attempts to transform
+index positions to ensure convergence (all clients end up with the same
+content), while CRDTs use mathematical models that usually do not involve index
+transformations, like linked lists. OT is currently the de-facto standard for
+shared editing on text. OT approaches that support shared editing without a
+central source of truth (a central server) require too much bookkeeping to be
+viable in practice. CRDTs are better suited for distributed systems, provide
+additional guarantees that the document can be synced with remote clients, and
+do not require a central source of truth.</p>
+<p>Yjs implements a modified version of the algorithm described in <a href="https://www.researchgate.net/publication/310212186_Near_Real-Time_Peer-to-Peer_Shared_Editing_on_Extensible_Data_Types">this
+paper</a>.
+This <a href="https://blog.kevinjahns.de/are-crdts-suitable-for-shared-editing/">article</a>
+explains a simple optimization on the CRDT model and
+gives more insight about the performance characteristics in Yjs.
+More information about the specific implementation is available in
+<a href="../INTERNALS/">INTERNALS.md</a> and in
+<a href="https://youtu.be/0l5XgnQ6rB4">this walkthrough of the Yjs codebase</a>.</p>
+<p>CRDTs that are suitable for shared text editing suffer from the fact that they
+only grow in size. There are CRDTs that do not grow in size, but they do not
+have the characteristics that are benificial for shared text editing (like
+intention preservation). Yjs implements many improvements to the original
+algorithm that diminish the trade-off that the document only grows in size. We
+can't garbage collect deleted structs (tombstones) while ensuring a unique
+order of the structs. But we can 1. merge preceeding structs into a single
+struct to reduce the amount of meta information, 2. we can delete content from
+the struct if it is deleted, and 3. we can garbage collect tombstones if we
+don't care about the order of the structs anymore (e.g. if the parent was
+deleted).</p>
+<p><strong>Examples:</strong></p>
+<ol>
+<li>If a user inserts elements in sequence, the struct will be merged into a
+   single struct. E.g. <code>text.insert(0, 'a'), text.insert(1, 'b');</code> is
+   first represented as two structs (<code>[{id: {client, clock: 0}, content: 'a'},
+   {id: {client, clock: 1}, content: 'b'}</code>) and then merged into a single
+   struct: <code>[{id: {client, clock: 0}, content: 'ab'}]</code>.</li>
+<li>When a struct that contains content (e.g. <code>ItemString</code>) is deleted, the
+   struct will be replaced with an <code>ItemDeleted</code> that does not contain content
+   anymore.</li>
+<li>When a type is deleted, all child elements are transformed to <code>GC</code> structs. A
+   <code>GC</code> struct only denotes the existence of a struct and that it is deleted.
+   <code>GC</code> structs can always be merged with other <code>GC</code> structs if the id's are
+   adjacent.</li>
+</ol>
+<p>Especially when working on structured content (e.g. shared editing on
+ProseMirror), these improvements yield very good results when
+<a href="https://github.com/dmonad/crdt-benchmarks">benchmarking</a> random document edits.
+In practice they show even better results, because users usually edit text in
+sequence, resulting in structs that can easily be merged. The benchmarks show
+that even in the worst case scenario that a user edits text from right to left,
+Yjs achieves good performance even for huge documents.</p>
+</div>
+</div>
+</div>
+<h2 id="_1">状态向量</h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">中文</label><label for="__tabbed_2_2">英文</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Yjs 能够在同步两个客户端时仅交换差异。我们使用 Lamport 时间戳来标识结构，并跟踪客户端创建它们的顺序。每个结构都有一个 <code>struct.id = { client: number, clock: number}</code>，唯一标识一个结构。我们定义每个客户端的下一个预期 <code>clock</code> 为 <em>状态向量</em>。该数据结构类似于 <a href="https://en.wikipedia.org/wiki/Version_vector">版本向量</a> 数据结构。但我们使用状态向量仅用于描述本地文档的状态，以便计算远程客户端缺失的结构。我们不使用它来跟踪因果关系。</p>
+</div>
+<div class="tabbed-block">
+<p>Yjs has the ability to exchange only the differences when syncing two clients.
+We use lamport timestamps to identify structs and to track in which order a
+client created them. Each struct has an <code>struct.id = { client: number, clock:
+number}</code> that uniquely identifies a struct. We define the next expected <code>clock</code>
+by each client as the <em>state vector</em>. This data structure is similar to the
+<a href="https://en.wikipedia.org/wiki/Version_vector">version vectors</a> data structure.
+But we use state vectors only to describe the state of the local document, so we
+can compute the missing struct of the remote client. We do not use it to track
+causality.</p>
+</div>
+</div>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.top", "navigation.sections", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
+      
+    
+  </body>
+</html>
