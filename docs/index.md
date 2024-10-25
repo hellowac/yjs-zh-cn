@@ -4,7 +4,7 @@
 
     > 一个具有强大共享数据抽象的 CRDT 框架
     
-    Yjs 是一个 [CRDT 实现](#yjs-crdt-algorithm)，它将其内部
+    Yjs 是一个 [CRDT 实现](./crdt-algorithm.md)，它将其内部
     数据结构暴露为 *共享类型*。共享类型是常见的数据类型，如 `Map`
     或 `Array`，具有超能力：更改会自动分发给其他
     对等方，并在没有合并冲突的情况下合并。
@@ -31,7 +31,7 @@
 
     > A CRDT framework with a powerful abstraction of shared data
     
-    Yjs is a [CRDT implementation](#yjs-crdt-algorithm) that exposes its internal
+    Yjs is a [CRDT implementation](./crdt-algorithm.md) that exposes its internal
     data structure as *shared types*. Shared types are common data types like `Map`
     or `Array` with superpowers: changes are automatically distributed to other
     peers and merged without merge conflicts.
